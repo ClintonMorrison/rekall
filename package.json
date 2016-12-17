@@ -1,0 +1,30 @@
+{
+  "name": "rekall",
+  "description": "A in-memory full text search index for JavaScript objects",
+  "author": "Clinton Morrison <contact@clintonmorrison.com",
+  "verson": "0.0.1",
+  "homepage": "https://github.com/ClintonMorrison/rekall",
+  "engines": {
+	"node": ">=4"
+  },
+  "scripts": {
+	"test": "node_modules/.bin/mocha"
+  },
+  "repository": {
+	"type": "git",
+	"url": "https://github.com/ClintonMorrison/rekall.git"
+  },
+  "keywords": [
+	"text",
+	"index",
+	"full"
+  ],
+  "devDependencies": {
+	"mocha": "*",
+	"should": "*",
+  "assert": "*"
+  },
+  "dependences": {
+  },
+  "license": "MIT"
+}
