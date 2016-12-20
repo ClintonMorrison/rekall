@@ -18,3 +18,30 @@ describe('util#startsWith', function () {
     util.startsWith('ABC', 'ABCD').should.be.false();
   });
 });
+
+describe('util#suffixesOf', function () {
+  it('should return an empty array for an empty string', function () {
+    var suffixes = util.suffixesOf('');
+    suffixes.should.be.instanceOf(Array);
+    suffixes.length.should.be.exactly(0);
+  });
+  
+  it('should return the suffxies in lexicographically ascending order', function () {
+    var suffixes = util.suffixesOf('abcd');
+    suffixes.should.be.instanceOf(Array);
+    suffixes[0].should.be.exactly('abcd');
+    suffixes[1].should.be.exactly('bcd');
+    suffixes[2].should.be.exactly('cd');
+    suffixes[3].should.be.exactly('d');
+    suffixes.length.should.be.exactly(4);
+    
+    suffixes = util.suffixesOf('dbca');
+    suffixes.should.be.instanceOf(Array);
+    suffixes[0].should.be.exactly('a');
+    suffixes[1].should.be.exactly('bca');
+    suffixes[2].should.be.exactly('ca');
+    suffixes[3].should.be.exactly('dbca');
+    suffixes.length.should.be.exactly(4);
+  });
+
+});
