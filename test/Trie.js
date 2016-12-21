@@ -22,27 +22,27 @@ describe('Trie#constructor', function () {
 });
 
 
-describe('Trie#match', function () {
+describe('Trie#_match', function () {
   it('should match an empty string', function () {
-	  emptyTrie.match('').should.be.exactly(emptyTrie.root);
+	  emptyTrie._match('').should.be.exactly(emptyTrie);
   });
   
   it('should return false if the pattern does not match', function () {
     var trie = new Trie(['apple', 'apricot', 'banana']);
-    trie.match('zebra').should.be.exactly(false);
-    trie.match('pple').should.be.exactly(false);
-    trie.match('ana').should.be.exactly(false);
+    trie._match('zebra').should.be.exactly(false);
+    trie._match('pple').should.be.exactly(false);
+    trie._match('ana').should.be.exactly(false);
   });
   
   it('should match prefixes of strings in the trie', function () {
     var trie = new Trie(['apple', 'apricot', 'banana']);
-    trie.match('a').should.be.exactly(trie.root.childrenByEdge['a']);
+    trie._match('a').should.be.exactly(trie.childrenByEdge['a']);
     
-    trie.match('ap').should.be.exactly(
-      trie.root.childrenByEdge['a'].childrenByEdge['p']
+    trie._match('ap').should.be.exactly(
+      trie.childrenByEdge['a'].childrenByEdge['p']
     );
     
-    trie.match('banan').should.be.exactly(trie.root
+    trie._match('banan').should.be.exactly(trie
       .childrenByEdge['b']
       .childrenByEdge['a']
       .childrenByEdge['n']
@@ -53,7 +53,7 @@ describe('Trie#match', function () {
   
   it('should match strings contained in the trie', function () {
     var trie = new Trie(['apple$', 'app$', 'cat$']);
-    trie.match('app$').should.be.exactly(trie.root
+    trie._match('app$').should.be.exactly(trie
       .childrenByEdge['a']
       .childrenByEdge['p']
       .childrenByEdge['p']
