@@ -29,27 +29,27 @@ describe('Trie#_addChild', function () {
   });
 });
 
-describe('Trie#_match', function () {
+describe('Trie#getLocus', function () {
   it('should match an empty string', function () {
-	  emptyTrie._match('').should.be.exactly(emptyTrie);
+	  emptyTrie.getLocus('').should.be.exactly(emptyTrie);
   });
   
   it('should return false if the pattern does not match', function () {
     var trie = new Trie(['apple', 'apricot', 'banana']);
-    trie._match('zebra').should.be.exactly(false);
-    trie._match('pple').should.be.exactly(false);
-    trie._match('ana').should.be.exactly(false);
+    trie.getLocus('zebra').should.be.exactly(false);
+    trie.getLocus('pple').should.be.exactly(false);
+    trie.getLocus('ana').should.be.exactly(false);
   });
   
   it('should match prefixes of strings in the trie', function () {
     var trie = new Trie(['apple', 'apricot', 'banana']);
-    trie._match('a').should.be.exactly(trie.childrenByEdge['a']);
+    trie.getLocus('a').should.be.exactly(trie.childrenByEdge['a']);
     
-    trie._match('ap').should.be.exactly(
+    trie.getLocus('ap').should.be.exactly(
       trie.childrenByEdge['a'].childrenByEdge['p']
     );
     
-    trie._match('banan').should.be.exactly(trie
+    trie.getLocus('banan').should.be.exactly(trie
       .childrenByEdge['b']
       .childrenByEdge['a']
       .childrenByEdge['n']
@@ -60,7 +60,7 @@ describe('Trie#_match', function () {
   
   it('should match strings contained in the trie', function () {
     var trie = new Trie(['apple$', 'app$', 'cat$']);
-    trie._match('app$').should.be.exactly(trie
+    trie.getLocus('app$').should.be.exactly(trie
       .childrenByEdge['a']
       .childrenByEdge['p']
       .childrenByEdge['p']
@@ -127,8 +127,8 @@ describe('Trie#prettyPrint', function () {
 describe('Trie.Node#isLeaf', function () {
   it('should return false is the node has any children', function () {
     var rootNode = new Trie.Node(),
-      leftNode = new Trie.Node(null, rootNode),
-      rightNode = new Trie.Node(null, rootNode);
+      leftNode = new Trie.Node(rootNode),
+      rightNode = new Trie.Node(rootNode);
     
     rootNode.childrenByEdge['L'] = leftNode;
     rootNode.isLeaf().should.be.false();
@@ -157,8 +157,8 @@ describe('Trie.Node#depth', function () {
     rootNode.childrenByEdge['a'] = firstChild;
     rootNode.depth().should.be.exactly(1);
     
-    var secondChild = new Trie.Node({ rootNode: rootNode }, rootNode);
-    var childOfSecondChild = new Trie.Node({ rootNode: rootNode }, secondChild);
+    var secondChild = new Trie.Node(rootNode);
+    var childOfSecondChild = new Trie.Node(secondChild);
     rootNode.childrenByEdge['b'] = secondChild;
     secondChild.childrenByEdge['c'] = childOfSecondChild;
     rootNode.depth().should.be.exactly(2);
@@ -174,12 +174,12 @@ describe('Trie.Node#children', function () {
   
   it('should return an array of nodes', function () {
     var rootNode = new Trie.Node();
-    var nodeA = new Trie.Node({ rootNode: rootNode }, rootNode);
-    var nodeB = new Trie.Node({ rootNode: rootNode }, rootNode);
+    var nodeA = new Trie.Node(rootNode);
+    var nodeB = new Trie.Node(rootNode);
     rootNode.childrenByEdge['a'] = nodeA;
     rootNode.childrenByEdge['b'] = nodeB;
     
-    var nodeC = new Trie.Node({ rootNode: rootNode }, nodeA);
+    var nodeC = new Trie.Node(nodeA);
     nodeA.childrenByEdge['c'] = nodeC;
 
     var children = rootNode.children();
@@ -202,12 +202,12 @@ describe('Trie.Node#leaves', function () {
   
   it('should return an array of leaf nodes', function () {
     var rootNode = new Trie.Node();
-    var nodeA = new Trie.Node({ rootNode: rootNode }, rootNode);
-    var nodeB = new Trie.Node({ rootNode: rootNode }, rootNode);
+    var nodeA = new Trie.Node(rootNode);
+    var nodeB = new Trie.Node(rootNode);
     rootNode.childrenByEdge['a'] = nodeA;
     rootNode.childrenByEdge['b'] = nodeB;
     
-    var nodeC = new Trie.Node({ rootNode: rootNode }, nodeA);
+    var nodeC = new Trie.Node(nodeA);
     nodeA.childrenByEdge['c'] = nodeC;
     
     var leaves = rootNode.leaves();
@@ -219,7 +219,6 @@ describe('Trie.Node#leaves', function () {
   
 });
 
-/*
 
 describe('Trie.Node#TODO', function () {
   it('should ', function () {
@@ -229,6 +228,5 @@ describe('Trie.Node#TODO', function () {
   it('should ', function () {
     
   });
-*/
 
 });

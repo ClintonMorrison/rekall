@@ -23,7 +23,9 @@
   "devDependencies": {
   	"mocha": "*",
   	"should": "*",
-    "assert": "*"
+    "assert": "*",
+    "sinon": "*",
+    "should-sinon": "*"
   },
   "dependences": {
   },
