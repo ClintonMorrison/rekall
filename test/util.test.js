@@ -1,7 +1,7 @@
 'use strict';
-var sinon = require('sinon');
 
-var util = require('../lib/util');
+import sinon from 'sinon';
+import util from '../src/util';
 
 describe('util#startsWith', function () {
   it('should return a boolean', function () {
@@ -50,12 +50,12 @@ describe('util#suffixesOf', function () {
 describe('util#each', function () {
   it('should invoke the callback for each element of an array', function () {
     var callback = sinon.spy();
-    util.each(["A", "B", "C", "D"], callback);
+    util.each(['A', 'B', 'C', 'D'], callback);
     callback.should.have.callCount(4);
-    callback.should.be.calledWith("A", 0);
-    callback.should.be.calledWith("B", 1);
-    callback.should.be.calledWith("C", 2);
-    callback.should.be.calledWith("D", 3);
+    callback.should.be.calledWith('A', 0);
+    callback.should.be.calledWith('B', 1);
+    callback.should.be.calledWith('C', 2);
+    callback.should.be.calledWith('D', 3);
   });
   
   it('should invoke the callback for each key of an object', function () {
@@ -68,10 +68,21 @@ describe('util#each', function () {
     }, callback);
     
     callback.should.have.callCount(4);
-    callback.should.be.calledWith(1, "A");
-    callback.should.be.calledWith(2, "B");
-    callback.should.be.calledWith(3, "C");
-    callback.should.be.calledWith(4, "D");
+    callback.should.be.calledWith(1, 'A');
+    callback.should.be.calledWith(2, 'B');
+    callback.should.be.calledWith(3, 'C');
+    callback.should.be.calledWith(4, 'D');
+  });
+  
+  it('should invoke the callback for each character of a string', function () {
+    var callback = sinon.spy();
+    util.each('ABCD', callback);
+    
+    callback.should.have.callCount(4);
+    callback.should.be.calledWith('A', 0);
+    callback.should.be.calledWith('B', 1);
+    callback.should.be.calledWith('C', 2);
+    callback.should.be.calledWith('D', 3);
   });
   
   it('should not invoke the callback for empty objects', function () {
@@ -80,6 +91,9 @@ describe('util#each', function () {
     callback.should.not.be.called();
     
     util.each([], callback);
+    callback.should.not.be.called();
+    
+    util.each('', callback);
     callback.should.not.be.called();
     
     util.each(false, callback);
