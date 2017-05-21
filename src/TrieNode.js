@@ -48,7 +48,6 @@ class TrieNode {
   }
   
   getMatchingLabels(pattern) {
-    const self = this;
     const labels = {};
     const locus = this.getLocus(pattern);
     
@@ -58,7 +57,7 @@ class TrieNode {
     
     // TODO: consider function for getting unique labels from collection of nodes
     util.each(locus.leaves(), function (leaf) {
-      util.each(leaf.labels, function (value, label) {
+      util.each(leaf.labels, (value, label) => {
         labels[label] = true;
       });
     });
@@ -85,21 +84,19 @@ class TrieNode {
   }
   
   siblings() {
-    const self = this;
-  
     if (!this.parent) {
       return [];
     }
     
-    this.parent.children().map(function (node) {
-      return (node != self);
+    this.parent.children().map((node) => {
+      return (node != this);
     });
   }
   
   children() {
     const children = [];
     
-    util.each(this.childrenByEdge, function (child) {
+    util.each(this.childrenByEdge, (child) => {
       children.push(child);
     });
     
@@ -117,13 +114,13 @@ class TrieNode {
     let node = result.lastNode;
     let nextNode;
       
-    util.each(result.remainingPattern, function (char) {
+    util.each(result.remainingPattern, (char) => {
       nextNode = new TrieNode();
       node.childrenByEdge[char] = nextNode;
       node = nextNode;
     });
   
-    util.each(labelsForLeaf, function (label) {
+    util.each(labelsForLeaf, (label) => {
       node.labels[label] = true;
     });
   }
@@ -145,7 +142,7 @@ class TrieNode {
       return 0;
     }
     
-    util.each(this.children(), function (child) {
+    util.each(this.children(), (child) => {
       depth = 1 + child.depth();
       maxDepth = depth;
     });
@@ -165,8 +162,8 @@ class TrieNode {
     for (const c in this.childrenByEdge) {
       is_last_child = index == (Object.keys(this.childrenByEdge).length - 1);
       const arrow = is_last_child ? '└' : '├';
-      const child_prefix = padding + (is_last_child ? ' ' : '|') + '  ';
-      lines.push(padding + arrow + '─ ' + c + this.childrenByEdge[c].prettyPrint(child_prefix));
+      const child_prefix = `${padding}${is_last_child ? ' ' : '|'}  `;
+      lines.push(`${padding}${arrow}─ ${c}${this.childrenByEdge[c].prettyPrint(child_prefix)}`);
       index += 1;
     }
     return lines.join("\n");

@@ -4,13 +4,13 @@
  * Checks if string "a" starts with string "b"
  *
  */
-var startsWith = function (a, b) {
+const startsWith = function (a, b) {
   return a.indexOf(b) == 0;
 };
 
-var suffixesOf = function (str) {
-  var suffixes = [];
-  var i;
+const suffixesOf = function (str) {
+  const suffixes = [];
+  let i;
   
   for (i = 0; i < str.length; i++) {
     suffixes.push(str.slice(i));
@@ -19,7 +19,7 @@ var suffixesOf = function (str) {
   return suffixes.sort();
 };
 
-var each = function(iterable, callback) {
+const each = function(iterable, callback) {
   if (!iterable || !callback) {
     return;
   }
@@ -33,25 +33,24 @@ var each = function(iterable, callback) {
   }
 };
 
-var _eachInArray = function (array, callback) {
-  var i;
+const _eachInArray = function (array, callback) {
+  let i;
   
   for (i = 0; i < array.length; i++) {
     callback(array[i], i);
   };
 };
 
-var _eachInObject = function (object, callback) {
-  var keys = Object.keys(object);
-  var i;
-  var key;
+const _eachInObject = function (object, callback) {
+  const keys = Object.keys(object);
+  let i;
+  let key;
   
   for (i = 0; i < keys.length; i++) {
     key = keys[i];
     callback(object[key], key);
   };
 };
-
 
 
 module.exports = {
