@@ -1,5 +1,6 @@
 'use strict';
 
+import should from 'should';
 import TrieNode from '../src/TrieNode';
 
 const emptyTrie = new TrieNode();
@@ -11,9 +12,9 @@ describe('Trie#_addChild', () => {
   });
 });
 
-describe('Trie#getLocus', () => {
+describe('Trie#match', () => {
   it('should match an empty string', () => {
-	  emptyTrie.getLocus('').should.be.exactly(emptyTrie);
+	  emptyTrie.match('').should.be.exactly(emptyTrie);
   });
   
   it('should return false if the pattern does not match', () => {
@@ -22,9 +23,9 @@ describe('Trie#getLocus', () => {
     trie.add('apricot');
     trie.add('banana');
 
-    trie.getLocus('zebra').should.be.exactly(false);
-    trie.getLocus('pple').should.be.exactly(false);
-    trie.getLocus('ana').should.be.exactly(false);
+    should.not.exist(trie.match('zebra'));
+    should.not.exist(trie.match('pple'));
+    should.not.exist(trie.match('ana'));
   });
   
   it('should match prefixes of strings in the trie', () => {
@@ -33,13 +34,13 @@ describe('Trie#getLocus', () => {
     trie.add('apricot');
     trie.add('banana');
     
-    trie.getLocus('a').should.be.exactly(trie.childrenByEdge['a']);
+    trie.match('a').should.be.exactly(trie.childrenByEdge['a']);
     
-    trie.getLocus('ap').should.be.exactly(
+    trie.match('ap').should.be.exactly(
       trie.childrenByEdge['a'].childrenByEdge['p']
     );
     
-    trie.getLocus('banan').should.be.exactly(trie
+    trie.match('banan').should.be.exactly(trie
       .childrenByEdge['b']
       .childrenByEdge['a']
       .childrenByEdge['n']
@@ -54,7 +55,7 @@ describe('Trie#getLocus', () => {
     trie.add('app$');
     trie.add('cat$');
     
-    trie.getLocus('app$').should.be.exactly(trie
+    trie.match('app$').should.be.exactly(trie
       .childrenByEdge['a']
       .childrenByEdge['p']
       .childrenByEdge['p']
@@ -179,37 +180,6 @@ describe('TrieNode#leaves', () => {
     leaves.should.have.length(2);
     leaves[0].should.equal(nodeB);
     leaves[1].should.equal(nodeC);
-  });
-  
-});
-
-
-describe('TrieNode#getMatchingLabels', () => {
-  it('should return an empty array if there is no match', () => {
-    const rootNode = new TrieNode();
-    const nodeA = new TrieNode(rootNode);
-    const nodeB = new TrieNode(rootNode);
-    rootNode.childrenByEdge['a'] = nodeA;
-    rootNode.childrenByEdge['b'] = nodeB;
-    nodeA.labels.label1 = true;
-    
-    const labels = rootNode.getMatchingLabels('abc');
-    labels.should.have.length(0);
-  });
-  
-  it('should should return an array of labels if there is a match', () => {
-    const rootNode = new TrieNode();
-    const nodeA = new TrieNode(rootNode);
-    const nodeB = new TrieNode(rootNode);
-    rootNode.childrenByEdge['a'] = nodeA;
-    rootNode.childrenByEdge['b'] = nodeB;
-    nodeA.labels.label1 = true;
-    nodeA.labels.label2 = true;
-    
-    const labels = rootNode.getMatchingLabels('');
-    labels.should.have.length(2);
-    labels[0].should.equal('label1');
-    labels[1].should.equal('label2');
   });
 
 });

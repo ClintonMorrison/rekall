@@ -42,27 +42,9 @@ class TrieNode {
     return child._matchUntilMismatch(remainingPattern);
   }
   
-  getLocus(pattern) {
+  match(pattern) {
     const result = this._matchUntilMismatch(pattern);
-    return (result.remainingPattern.length === 0) ? result.lastNode : false;
-  }
-  
-  getMatchingLabels(pattern) {
-    const labels = {};
-    const locus = this.getLocus(pattern);
-    
-    if (!locus) {
-      return [];
-    }
-    
-    // TODO: consider function for getting unique labels from collection of nodes
-    util.each(locus.leaves(), function (leaf) {
-      util.each(leaf.labels, (value, label) => {
-        labels[label] = true;
-      });
-    });
-    
-    return Object.keys(labels);
+    return (result.remainingPattern.length === 0) ? result.lastNode : null;
   }
   
   leaves() {
@@ -144,7 +126,7 @@ class TrieNode {
     
     util.each(this.children(), (child) => {
       depth = 1 + child.depth();
-      maxDepth = depth;
+      maxDepth = Math.max(depth, maxDepth);
     });
   
     return maxDepth;
@@ -167,6 +149,18 @@ class TrieNode {
       index += 1;
     }
     return lines.join("\n");
+  }
+  
+  static getUniqueLabels(nodes) {
+    const labels = {};
+
+    util.each(nodes, (node) => {
+      util.each(node.labels, (value, label) => {
+        labels[label] = true;
+      });
+    });
+    
+    return Object.keys(labels);
   }
 }
 

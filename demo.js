@@ -1,4 +1,6 @@
-var Trie = require('./lib/Trie');
+'use strict';
+
+var SuffixTree = require('./lib/SuffixTree');
 
 var strings = [
   'abcdef',
@@ -6,12 +8,23 @@ var strings = [
   'axyz'
 ];
 
-var trie = new Trie(strings);
+var tree = new SuffixTree(['abcd', 'abcef']);
+console.log(tree.prettyPrint());
+console.log(tree.depth());
+return;
+
+/*
+var tree = new SuffixTree(strings);
 
 console.log('Strings: \n ', strings.join('\n  '));
 
-console.log('\nTrie:');
-console.log(trie.prettyPrint());
+console.log('\nSuffixTree:');
+console.log(tree.prettyPrint());
 
-console.log('\nMatch for P=abc');
-console.log(trie.getMatchingLabels('abcd'));
+var pattern = "ax"
+
+console.log('\nMatch for P=' + pattern);
+console.log(tree.getMatchingLabels(pattern));
+
+let tree = new SuffixTree(['abcd', 'abcef']);
+*/
