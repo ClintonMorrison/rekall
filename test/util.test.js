@@ -102,5 +102,14 @@ describe('util#each', function () {
     util.each(null, callback);
     callback.should.not.be.called();
   });
+});
+
+describe('util#hasKeys', function () {
+  it('should return true if the object has all the required keys', function () {
+    util.hasKeys({ a: 1, b: 2, c: 3}, ['a', 'c']).should.equal(true);
+  });
   
+  it('should return false if the object does NOT have all the required keys', function () {
+    util.hasKeys({ a: 1, b: 2, c: 3}, ['a', 'd']).should.equal(false);
+  });
 });

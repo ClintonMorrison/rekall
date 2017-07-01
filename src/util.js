@@ -53,8 +53,19 @@ const _eachInObject = function (object, callback) {
 };
 
 
+const hasKeys = function (object, keys) {
+  for (const key of keys) {
+      if (typeof object[key] === 'undefined') {
+        return false;
+      }
+  }
+  
+  return true;
+};
+
 module.exports = {
   startsWith: startsWith,
   suffixesOf: suffixesOf,
-  each: each
+  each: each,
+  hasKeys: hasKeys
 };
