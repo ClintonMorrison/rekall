@@ -6,28 +6,29 @@ class StringIndex {
     this.suffixTree = new SuffixTree([]);
   }
 
-  whereStringEquals() {
-    const processedPattern = `^${this._encode(pattern)}$`;
+  whereStringEquals(pattern) {
+    const processedPattern = `^${this.constructor._encode(pattern)}$`;
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
   whereStringContains(pattern) {
-    const processedPattern = `^${this._encode(pattern)}`;
+    const processedPattern = `^${this.constructor._encode(pattern)}`;
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
   whereStringEndsWith(pattern) {
-    const processedPattern = `^${this._encode(pattern)}`;
+    const processedPattern = `^${this.constructor._encode(pattern)}`;
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
   whereStringStartsWith(pattern) {
-    const processedPattern = this._encode(pattern);
+    const processedPattern = this.constructor._encode(pattern);
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
+  // TODO: add needs to take a string ID
   add(string) {
-    this.suffixTree.add(`^${this._encode(pattern)}$`);
+    this.suffixTree.add(`^${this.constructor._encode(string)}$`);
   }
 
   static _encode(string) {

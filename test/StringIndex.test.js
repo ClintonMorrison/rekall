@@ -24,3 +24,11 @@ describe('StringIndex#_decode', () => {
     StringIndex._decode('^test\\$test$').should.be.exactly('test$test');
   });
 });
+
+describe('StringIndex#whereStringEquals', () => {
+  it('should return the index of equal strings', () => {
+    var stringIndex = new StringIndex();
+    stringIndex.add('test string');
+    stringIndex.whereStringEquals('test string').should.match(['0']);
+  });
+});
