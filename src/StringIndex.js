@@ -40,8 +40,7 @@ class StringIndex {
   static _decode(string) {
     return string
       .replace(/\\\$/, '$')
-      .replace(/\\\^/, '^')
-      .slice(1, -1);
+      .replace(/\\\^/, '^');
   }
 }
 

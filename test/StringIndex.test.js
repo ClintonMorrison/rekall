@@ -12,16 +12,16 @@ describe('StringIndex#_encode', () => {
 });
 
 describe('StringIndex#_decode', () => {
-  it('should remove a leading "^" and trailing "$" characters', () => {
-    StringIndex._decode('^test$').should.be.exactly('test');
+  it('should not change a string the does not have "^" and "$" characters', () => {
+    StringIndex._decode('test').should.be.exactly('test');
   });
 
   it('should replace "\\^" with "^"', () => {
-    StringIndex._decode('^test\\^test$').should.be.exactly('test^test');
+    StringIndex._decode('test\\^test').should.be.exactly('test^test');
   });
 
   it('should replace "\\$" with "$"', () => {
-    StringIndex._decode('^test\\$test$').should.be.exactly('test$test');
+    StringIndex._decode('test\\$test').should.be.exactly('test$test');
   });
 });
 
