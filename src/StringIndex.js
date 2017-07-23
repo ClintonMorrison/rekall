@@ -4,6 +4,14 @@ import SuffixTree from './SuffixTree';
 class StringIndex {
   constructor() {
     this.suffixTree = new SuffixTree([]);
+
+    this.findOne = {
+
+    };
+
+    this.findAll = {
+
+    };
   }
 
   whereStringEquals(pattern) {
@@ -27,8 +35,8 @@ class StringIndex {
   }
 
   // TODO: add needs to take a string ID
-  add(string) {
-    this.suffixTree.add(`^${this.constructor._encode(string)}$`);
+  add(id, string) {
+    this.suffixTree.add(id, `^${this.constructor._encode(string)}$`);
   }
 
   static _encode(string) {
