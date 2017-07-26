@@ -1,19 +1,19 @@
 import SuffixTree from '../src/SuffixTree';
 
-describe('SuffixTree', () => {
-  describe('#constructor', () => {
-    it('should create a SuffixTree', () => {
+describe('SuffixTree', function () {
+  describe('#constructor', function () {
+    it('should create a SuffixTree', function () {
       const tree = new SuffixTree();
       tree.add(1, 'test');
     });
 
-    it('should create a SuffixTree over 1 string with the correct depth', () => {
+    it('should create a SuffixTree over 1 string with the correct depth', function () {
       const tree = new SuffixTree();
       tree.add(1, 'abcd');
       tree.depth().should.be.exactly(4);
     });
 
-    it('should create a SuffixTree over 2 strings with the correct depth', () => {
+    it('should create a SuffixTree over 2 strings with the correct depth', function () {
       const tree = new SuffixTree();
       tree.add(1, 'abcd');
       tree.add(2, 'abcde');
@@ -21,8 +21,8 @@ describe('SuffixTree', () => {
     });
   });
 
-  describe('#add', () => {
-    it('should add a string to the trie', () => {
+  describe('#add', function () {
+    it('should add a string to the trie', function () {
       const tree = new SuffixTree();
       tree.depth().should.be.exactly(0);
 
@@ -41,14 +41,14 @@ describe('SuffixTree', () => {
     });
   });
 
-  describe('#getMatchingStringIDs', () => {
-    it('should return an empty array if there is no match', () => {
+  describe('#getMatchingStringIDs', function () {
+    it('should return an empty array if there is no match', function () {
       const tree = new SuffixTree();
       tree.add(1, 'abc');
       tree.getMatchingStringIDs('d').should.be.empty();
     });
 
-    it('should return the matching string IDs if there is a match', () => {
+    it('should return the matching string IDs if there is a match', function () {
       const tree = new SuffixTree();
       tree.add(1, 'abc');
       tree.add(2, 'xyz');
@@ -58,14 +58,14 @@ describe('SuffixTree', () => {
     });
   });
 
-  describe('#getMatchingStrings', () => {
-    it('should return an empty array if there is no match', () => {
+  describe('#getMatchingStrings', function () {
+    it('should return an empty array if there is no match', function () {
       const tree = new SuffixTree();
       tree.add(1, 'abc');
       tree.getMatchingStrings('d').should.be.empty();
     });
 
-    it('should return the matching strings if there is a match', () => {
+    it('should return the matching strings if there is a match', function () {
       const tree = new SuffixTree();
       tree.add(1, 'abc');
       tree.add(2, 'xyz');

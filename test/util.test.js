@@ -4,7 +4,7 @@ import should from 'should';
 import sinon from 'sinon';
 import util from '../src/util';
 
-describe('util', () => {
+describe('util', function () {
   describe('#startsWith', function () {
     it('should return a boolean', function () {
   	  util.startsWith('ABCD', 'A').should.be.a.instanceOf(Boolean);
@@ -116,18 +116,18 @@ describe('util', () => {
     });
   });
 
-  describe('#getFirstElement', () => {
-    context('the array is empty', () => {
+  describe('#getFirstElement', function () {
+    context('the array is empty', function () {
       const items = [];
 
-      it('returns null', () => {
+      it('returns null', function () {
         should.not.exist(util.getFirstElement(items));
       });
     });
 
-    context('the array has elements', () => {
+    context('the array has elements', function () {
       const items = [1, 2, 3, 4];
-      it('returns the first element', () => {
+      it('returns the first element', function () {
         util.getFirstElement(items).should.equal(1);
       });
     });

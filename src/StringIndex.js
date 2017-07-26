@@ -15,12 +15,12 @@ class StringIndex {
   }
 
   _getIDsWhereStringContains(pattern) {
-    const processedPattern = `^${this.constructor._encode(pattern)}`;
+    const processedPattern = `${this.constructor._encode(pattern)}`;
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
   _getIDsWhereStringEndsWith(pattern) {
-    const processedPattern = `^${this.constructor._encode(pattern)}`;
+    const processedPattern = `${this.constructor._encode(pattern)}$`;
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 

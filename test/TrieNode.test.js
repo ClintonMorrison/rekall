@@ -5,20 +5,20 @@ import TrieNode from '../src/TrieNode';
 
 const emptyTrie = new TrieNode();
 
-describe('TrieNode', () => {
-  describe('#_addChild', () => {
-    it('should add a child', () => {
+describe('TrieNode', function () {
+  describe('#_addChild', function () {
+    it('should add a child', function () {
       const trie = new TrieNode();
       trie.childrenByEdge.should.match({});
     });
   });
 
-  describe('#match', () => {
-    it('should match an empty string', () => {
+  describe('#match', function () {
+    it('should match an empty string', function () {
   	  emptyTrie.match('').should.be.exactly(emptyTrie);
     });
 
-    it('should return false if the pattern does not match', () => {
+    it('should return false if the pattern does not match', function () {
       const trie = new TrieNode();
       trie.add('apple');
       trie.add('apricot');
@@ -29,7 +29,7 @@ describe('TrieNode', () => {
       should.not.exist(trie.match('ana'));
     });
 
-    it('should match prefixes of strings in the trie', () => {
+    it('should match prefixes of strings in the trie', function () {
       const trie = new TrieNode();
       trie.add('apple');
       trie.add('apricot');
@@ -50,7 +50,7 @@ describe('TrieNode', () => {
       );
     });
 
-    it('should match strings contained in the trie', () => {
+    it('should match strings contained in the trie', function () {
       const trie = new TrieNode();
       trie.add('apple$');
       trie.add('app$');
@@ -67,13 +67,13 @@ describe('TrieNode', () => {
   });
 
 
-  describe('#prettyPrint', () => {
-    it('should return empty string when trie is empty', () => {
+  describe('#prettyPrint', function () {
+    it('should return empty string when trie is empty', function () {
       const trie = new TrieNode();
       trie.prettyPrint().should.be.exactly('');
     });
 
-    it('should print the trie', () => {
+    it('should print the trie', function () {
       const trie = new TrieNode();
       trie.add('abcd');
       trie.add('abce');
@@ -90,8 +90,8 @@ describe('TrieNode', () => {
   });
 
 
-  describe('TrieNode.Node#isLeaf', () => {
-    it('should return false is the node has any children', () => {
+  describe('TrieNode.Node#isLeaf', function () {
+    it('should return false is the node has any children', function () {
       const rootNode = new TrieNode(),
         leftNode = new TrieNode(rootNode),
         rightNode = new TrieNode(rootNode);
@@ -103,19 +103,19 @@ describe('TrieNode', () => {
       rootNode.isLeaf().should.be.false();
     });
 
-    it('should return true is the node has no children', () => {
+    it('should return true is the node has no children', function () {
       const rootNode = new TrieNode();
       rootNode.isLeaf().should.be.true();
     });
   });
 
-  describe('#depth', () => {
-    it('should return 0 for the root node', () => {
+  describe('#depth', function () {
+    it('should return 0 for the root node', function () {
         const rootNode = new TrieNode();
         rootNode.depth().should.be.exactly(0);
     });
 
-    it('should print the length of the longest path from the root to a leaf', () => {
+    it('should print the length of the longest path from the root to a leaf', function () {
       const rootNode = new TrieNode();
       rootNode.depth().should.be.exactly(0);
 
@@ -132,13 +132,13 @@ describe('TrieNode', () => {
 
   });
 
-  describe('#children', () => {
-    it('should return an empty array if the node has no children', () => {
+  describe('#children', function () {
+    it('should return an empty array if the node has no children', function () {
       const rootNode = new TrieNode();
       rootNode.children().should.be.an.Array().and.be.empty();
     });
 
-    it('should return an array of nodes', () => {
+    it('should return an array of nodes', function () {
       const rootNode = new TrieNode();
       const nodeA = new TrieNode(rootNode);
       const nodeB = new TrieNode(rootNode);
@@ -157,8 +157,8 @@ describe('TrieNode', () => {
 
   });
 
-  describe('#leaves', () => {
-    it('should return an array with just the node if the node is a leaf', () => {
+  describe('#leaves', function () {
+    it('should return an array with just the node if the node is a leaf', function () {
       const rootNode = new TrieNode();
       const leaves = rootNode.leaves();
       leaves.should.be.an.Array();
@@ -166,7 +166,7 @@ describe('TrieNode', () => {
       leaves[0].should.equal(rootNode);
     });
 
-    it('should return an array of leaf nodes', () => {
+    it('should return an array of leaf nodes', function () {
       const rootNode = new TrieNode();
       const nodeA = new TrieNode(rootNode);
       const nodeB = new TrieNode(rootNode);
