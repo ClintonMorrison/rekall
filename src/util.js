@@ -11,11 +11,11 @@ const startsWith = function (a, b) {
 const suffixesOf = function (str) {
   const suffixes = [];
   let i;
-  
+
   for (i = 0; i < str.length; i++) {
     suffixes.push(str.slice(i));
   }
-  
+
   return suffixes.sort();
 };
 
@@ -23,7 +23,7 @@ const each = function(iterable, callback) {
   if (!iterable || !callback) {
     return;
   }
-  
+
   if (Array.isArray(iterable)) {
     _eachInArray(iterable, callback)
   } else if (typeof iterable === 'string') {
@@ -35,7 +35,7 @@ const each = function(iterable, callback) {
 
 const _eachInArray = function (array, callback) {
   let i;
-  
+
   for (i = 0; i < array.length; i++) {
     callback(array[i], i);
   };
@@ -45,7 +45,7 @@ const _eachInObject = function (object, callback) {
   const keys = Object.keys(object);
   let i;
   let key;
-  
+
   for (i = 0; i < keys.length; i++) {
     key = keys[i];
     callback(object[key], key);
@@ -59,13 +59,22 @@ const hasKeys = function (object, keys) {
         return false;
       }
   }
-  
+
   return true;
+};
+
+const getFirstElement = function (array) {
+  if (array.length >= 1) {
+    return array[0];
+  }
+
+  return null;
 };
 
 module.exports = {
   startsWith: startsWith,
   suffixesOf: suffixesOf,
   each: each,
-  hasKeys: hasKeys
+  hasKeys: hasKeys,
+  getFirstElement: getFirstElement
 };
