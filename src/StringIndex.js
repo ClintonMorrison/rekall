@@ -5,8 +5,8 @@ class StringIndex {
   constructor() {
     this.suffixTree = new SuffixTree();
 
-    this.findOne = this.getQueryBuilder(util.getFirstElement);
-    this.findAll = this.getQueryBuilder((results) => results);
+    this.findOne = this.getFindOneQueryBuilder();
+    this.findAll = this.getFindAllQueryBuilder();
   }
 
   _getIDsWhereStringEquals(pattern) {
@@ -15,7 +15,12 @@ class StringIndex {
   }
 
   _getIDsWhereStringContains(pattern) {
-    const processedPattern = `${this.constructor._encode(pattern)}`;
+    const processedPattern = this.constructor._encode(pattern);
+    return this.suffixTree.getMatchingStringIDs(processedPattern);
+  }
+
+  _getIDsWhereStringStartsWith(pattern) {
+    const processedPattern = `^${this.constructor._encode(pattern)}`;
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
@@ -24,29 +29,40 @@ class StringIndex {
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
-  _getIDsWhereStringStartsWith(pattern) {
-    const processedPattern = this.constructor._encode(pattern);
-    return this.suffixTree.getMatchingStringIDs(processedPattern);
-  }
-
   // TODO: add needs to take a string ID
   add(id, string) {
     this.suffixTree.add(id, `^${this.constructor._encode(string)}$`);
   }
 
-  getQueryBuilder(processResultsCallback) {
+  getFindOneQueryBuilder(processResultsCallback) {
     return {
       thatEquals: (pattern) =>
-        processResultsCallback(this._getIDsWhereStringEquals(pattern)),
+        util.getFirstElement(this._getIDsWhereStringEquals(pattern)),
 
       thatContains: (pattern) =>
-        processResultsCallback(this._getIDsWhereStringContains(pattern)),
+        util.getFirstElement(this._getIDsWhereStringContains(pattern)),
 
       thatStartsWith: (pattern) =>
-        processResultsCallback(this._getIDsWhereStringStartsWith(pattern)),
+        util.getFirstElement(this._getIDsWhereStringStartsWith(pattern)),
 
       thatEndsWith: (pattern) =>
-        processResultsCallback(this._getIDsWhereStringEndsWith(pattern))
+        util.getFirstElement(this._getIDsWhereStringEndsWith(pattern))
+    };
+  }
+
+  getFindAllQueryBuilder(processResultsCallback) {
+    return {
+      thatEqual: (pattern) =>
+        (this._getIDsWhereStringEquals(pattern)),
+
+      thatContain: (pattern) =>
+        (this._getIDsWhereStringContains(pattern)),
+
+      thatStartWith: (pattern) =>
+        (this._getIDsWhereStringStartsWith(pattern)),
+
+      thatEndWith: (pattern) =>
+        (this._getIDsWhereStringEndsWith(pattern))
     };
   }
 
