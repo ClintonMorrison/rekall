@@ -1,30 +1,22 @@
 'use strict';
 
-var SuffixTree = require('./lib/SuffixTree');
+const StringIndex = require('./lib/StringIndex');
 
-var strings = [
-  'abcdef',
-  'abcxyz',
-  'axyz'
-];
+const stringIndex = new StringIndex();
 
-var tree = new SuffixTree(['abcd', 'abcef']);
-console.log(tree.prettyPrint());
-console.log(tree.depth());
-return;
+const strings = {
+  '1': 'cats cats',
+  '2': 'cats are very good.',
+  '3': 'Dogs dogs dogs',
+  '4': 'It was a catastrophe',
+  '5': 'This is a test'
+};
 
-/*
-var tree = new SuffixTree(strings);
+console.log('\n\nSTRINGS TO INDEX:')
+for (const id in strings) {
+  console.log('  ', id, '-->', strings[id]);
+  stringIndex.add(id, strings[id]);
+}
 
-console.log('Strings: \n ', strings.join('\n  '));
-
-console.log('\nSuffixTree:');
-console.log(tree.prettyPrint());
-
-var pattern = "ax"
-
-console.log('\nMatch for P=' + pattern);
-console.log(tree.getMatchingLabels(pattern));
-
-let tree = new SuffixTree(['abcd', 'abcef']);
-*/
+console.log('\n\nSTRINGS CONTAINING "CAT"');
+console.log(stringIndex.findAll.thatContain('cat'));

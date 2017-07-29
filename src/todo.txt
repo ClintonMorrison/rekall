@@ -1,0 +1,1 @@
+Case sensitive option to trie or query?

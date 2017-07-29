@@ -29,7 +29,6 @@ class StringIndex {
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
-  // TODO: add needs to take a string ID
   add(id, string) {
     this.suffixTree.add(id, `^${this.constructor._encode(string)}$`);
   }
