@@ -132,6 +132,26 @@ describe('TrieNode', function () {
 
   });
 
+  describe('#size', function () {
+    it('should return 1 for a single node', function () {
+        const rootNode = new TrieNode();
+        rootNode.size().should.be.exactly(1);
+    });
+
+    it('should print the number of nodes in the tree', function () {
+      const rootNode = new TrieNode();
+
+      const firstChild = new TrieNode({ rootNode: rootNode }. rootNode);
+      rootNode.childrenByEdge['a'] = firstChild;
+
+      const secondChild = new TrieNode(rootNode);
+      const childOfSecondChild = new TrieNode(secondChild);
+      rootNode.childrenByEdge['b'] = secondChild;
+
+      rootNode.size().should.be.exactly(3);
+    });
+  });
+
   describe('#children', function () {
     it('should return an empty array if the node has no children', function () {
       const rootNode = new TrieNode();

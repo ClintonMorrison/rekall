@@ -132,6 +132,21 @@ class TrieNode {
     return maxDepth;
   };
 
+  size() {
+    let child;
+    let total = 1;
+
+    if (this.isLeaf()) {
+      return total;
+    }
+
+    util.each(this.children(), (child) => {
+      total += child.size();
+    });
+
+    return total;
+  }
+
   prettyPrint(padding) {
     if (!padding) {
       padding = '';
