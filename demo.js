@@ -20,3 +20,5 @@ for (const id in strings) {
 
 console.log('\n\nSTRINGS CONTAINING "CAT"');
 console.log(stringIndex.findAll.thatContain('cat'));
+
+console.log('\n\nNODES IN TRIE:', stringIndex.suffixTree.size());

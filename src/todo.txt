@@ -1,1 +1,5 @@
 Case sensitive option to trie or query?
+
+
+Profiling:
+demo was 688 nodes
