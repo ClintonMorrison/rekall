@@ -4,7 +4,8 @@ import util from './util';
 
 class TrieNode {
   constructor(parent, labels) {
-    this.childrenByEdge = {};
+    this.childrenByLeadingChar = {};
+    this.edgesByLeadingChar = {};
     this.labels = labels || {};
     this.parent = parent;
   }
@@ -20,15 +21,16 @@ class TrieNode {
 
     // Check if first character matches leading character of any edge
     const leadingChar = pattern[0];
-    if (!this.childrenByEdge[leadingChar]) {
+    const edge = this.edgesByLeadingChar[leadingChar];
+    if (!this.childrenByLeadingChar[leadingChar]) {
       return {
         lastNode: this,
         remainingPattern: pattern,
       };
     }
 
-    // Check if whole edge matches pattern
-    if (!util.startsWith(pattern, leadingChar)) {
+    // Check if whole edge matches patterns
+    if (!util.startsWith(pattern, edge)) {
       return {
         lastNode: this,
         remainingPattern: pattern,
@@ -36,8 +38,8 @@ class TrieNode {
     }
 
     // Strip matched character and keep matching rest of pattern
-    const remainingPattern = pattern.substring(1),
-      child = this.childrenByEdge[leadingChar];
+    const remainingPattern = pattern.substring(edge.length),
+      child = this.childrenByLeadingChar[leadingChar];
 
     return child._matchUntilMismatch(remainingPattern);
   }
@@ -78,16 +80,24 @@ class TrieNode {
   children() {
     const children = [];
 
-    util.each(this.childrenByEdge, (child) => {
+    util.each(this.childrenByLeadingChar, (child) => {
       children.push(child);
     });
 
     return children;
   }
 
-  _addChild(c) {
+  _connectByEdge(childToConnect, edge) {
+    // TODO: this could validate edge doesn't already exist
+    const leadingChar = edge[0];
+    this.childrenByLeadingChar[leadingChar] = childToConnect;
+    this.edgesByLeadingChar[leadingChar] = edge;
+  }
+
+  _addChild(edge) {
     const newNode = new TrieNode();
-    this.childrenByEdge[c] = newNode;
+    this._connectByEdge(newNode, edge);
+    // TODO: check if prefix already exists, split path if necessary
     return newNode;
   }
 
@@ -97,8 +107,7 @@ class TrieNode {
     let nextNode;
 
     util.each(result.remainingPattern, (char) => {
-      nextNode = new TrieNode();
-      node.childrenByEdge[char] = nextNode;
+      nextNode = node._addChild(char);
       node = nextNode;
     });
 
@@ -107,8 +116,31 @@ class TrieNode {
     });
   }
 
+  splitEdge(prefixToSplit) {
+    const leadingChar = prefixToSplit[0];
+    const edge = this.edgesByLeadingChar[leadingChar];
+
+    // Split the edge into the prefix and the rest
+    const prefixLength = util.getLengthOfCommonPrefix(edge, prefixToSplit);
+    const prefix = edge.slice(0, prefixLength);
+    const remainder = edge.slice(prefixLength);
+
+    // Disconnect the child on the edge
+    const oldChild =  this.childrenByLeadingChar[leadingChar];
+    delete this.edgesByLeadingChar[leadingChar];
+    delete this.childrenByLeadingChar[leadingChar];
+
+    // Connect a new node by the prefix
+    const newNode = this._addChild(prefix);
+
+    // Reconnect old node with the remainder
+    newNode._connectByEdge(oldNode, remainder);
+
+    return newNode;
+  }
+
   isLeaf() {
-    for (const c in this.childrenByEdge) {
+    for (const c in this.childrenByLeadingChar) {
       return false;
     }
 
@@ -156,11 +188,11 @@ class TrieNode {
     let is_last_child = false;
     let index = 0;
 
-    for (const c in this.childrenByEdge) {
-      is_last_child = index == (Object.keys(this.childrenByEdge).length - 1);
+    for (const c in this.childrenByLeadingChar) {
+      is_last_child = index == (Object.keys(this.childrenByLeadingChar).length - 1);
       const arrow = is_last_child ? '└' : '├';
       const child_prefix = `${padding}${is_last_child ? ' ' : '|'}  `;
-      lines.push(`${padding}${arrow}─ ${c}${this.childrenByEdge[c].prettyPrint(child_prefix)}`);
+      lines.push(`${padding}${arrow}─ ${c}${this.childrenByLeadingChar[c].prettyPrint(child_prefix)}`);
       index += 1;
     }
     return lines.join("\n");

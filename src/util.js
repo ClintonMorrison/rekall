@@ -19,6 +19,19 @@ const suffixesOf = function (str) {
   return suffixes.sort();
 };
 
+const getLengthOfCommonPrefix = function (str1, str2) {
+  let i = 0;
+  const maxPrefixLength = Math.min(str1.length, str2.length);
+
+  for (i = 0; i < maxPrefixLength; i++) {
+    if (str1[i] !== str2[i]) {
+      return i;
+    }
+  }
+
+  return i;
+}
+
 const each = function(iterable, callback) {
   if (!iterable || !callback) {
     return;

@@ -9,7 +9,7 @@ describe('TrieNode', function () {
   describe('#_addChild', function () {
     it('should add a child', function () {
       const trie = new TrieNode();
-      trie.childrenByEdge.should.match({});
+      trie.childrenByLeadingChar.should.match({});
     });
   });
 
@@ -35,18 +35,18 @@ describe('TrieNode', function () {
       trie.add('apricot');
       trie.add('banana');
 
-      trie.match('a').should.be.exactly(trie.childrenByEdge['a']);
+      trie.match('a').should.be.exactly(trie.childrenByLeadingChar['a']);
 
       trie.match('ap').should.be.exactly(
-        trie.childrenByEdge['a'].childrenByEdge['p']
+        trie.childrenByLeadingChar['a'].childrenByLeadingChar['p']
       );
 
       trie.match('banan').should.be.exactly(trie
-        .childrenByEdge['b']
-        .childrenByEdge['a']
-        .childrenByEdge['n']
-        .childrenByEdge['a']
-        .childrenByEdge['n']
+        .childrenByLeadingChar['b']
+        .childrenByLeadingChar['a']
+        .childrenByLeadingChar['n']
+        .childrenByLeadingChar['a']
+        .childrenByLeadingChar['n']
       );
     });
 
@@ -57,10 +57,10 @@ describe('TrieNode', function () {
       trie.add('cat$');
 
       trie.match('app$').should.be.exactly(trie
-        .childrenByEdge['a']
-        .childrenByEdge['p']
-        .childrenByEdge['p']
-        .childrenByEdge['$']
+        .childrenByLeadingChar['a']
+        .childrenByLeadingChar['p']
+        .childrenByLeadingChar['p']
+        .childrenByLeadingChar['$']
       );
     });
 
@@ -96,10 +96,10 @@ describe('TrieNode', function () {
         leftNode = new TrieNode(rootNode),
         rightNode = new TrieNode(rootNode);
 
-      rootNode.childrenByEdge['L'] = leftNode;
+      rootNode.childrenByLeadingChar['L'] = leftNode;
       rootNode.isLeaf().should.be.false();
 
-      rootNode.childrenByEdge['R'] = rightNode;
+      rootNode.childrenByLeadingChar['R'] = rightNode;
       rootNode.isLeaf().should.be.false();
     });
 
@@ -120,13 +120,13 @@ describe('TrieNode', function () {
       rootNode.depth().should.be.exactly(0);
 
       const firstChild = new TrieNode({ rootNode: rootNode }. rootNode);
-      rootNode.childrenByEdge['a'] = firstChild;
+      rootNode.childrenByLeadingChar['a'] = firstChild;
       rootNode.depth().should.be.exactly(1);
 
       const secondChild = new TrieNode(rootNode);
       const childOfSecondChild = new TrieNode(secondChild);
-      rootNode.childrenByEdge['b'] = secondChild;
-      secondChild.childrenByEdge['c'] = childOfSecondChild;
+      rootNode.childrenByLeadingChar['b'] = secondChild;
+      secondChild.childrenByLeadingChar['c'] = childOfSecondChild;
       rootNode.depth().should.be.exactly(2);
     });
 
@@ -142,11 +142,11 @@ describe('TrieNode', function () {
       const rootNode = new TrieNode();
 
       const firstChild = new TrieNode({ rootNode: rootNode }. rootNode);
-      rootNode.childrenByEdge['a'] = firstChild;
+      rootNode.childrenByLeadingChar['a'] = firstChild;
 
       const secondChild = new TrieNode(rootNode);
       const childOfSecondChild = new TrieNode(secondChild);
-      rootNode.childrenByEdge['b'] = secondChild;
+      rootNode.childrenByLeadingChar['b'] = secondChild;
 
       rootNode.size().should.be.exactly(3);
     });
@@ -162,11 +162,11 @@ describe('TrieNode', function () {
       const rootNode = new TrieNode();
       const nodeA = new TrieNode(rootNode);
       const nodeB = new TrieNode(rootNode);
-      rootNode.childrenByEdge['a'] = nodeA;
-      rootNode.childrenByEdge['b'] = nodeB;
+      rootNode.childrenByLeadingChar['a'] = nodeA;
+      rootNode.childrenByLeadingChar['b'] = nodeB;
 
       const nodeC = new TrieNode(nodeA);
-      nodeA.childrenByEdge['c'] = nodeC;
+      nodeA.childrenByLeadingChar['c'] = nodeC;
 
       const children = rootNode.children();
       children.should.be.an.Array();
@@ -190,11 +190,11 @@ describe('TrieNode', function () {
       const rootNode = new TrieNode();
       const nodeA = new TrieNode(rootNode);
       const nodeB = new TrieNode(rootNode);
-      rootNode.childrenByEdge['a'] = nodeA;
-      rootNode.childrenByEdge['b'] = nodeB;
+      rootNode.childrenByLeadingChar['a'] = nodeA;
+      rootNode.childrenByLeadingChar['b'] = nodeB;
 
       const nodeC = new TrieNode(nodeA);
-      nodeA.childrenByEdge['c'] = nodeC;
+      nodeA.childrenByLeadingChar['c'] = nodeC;
 
       const leaves = rootNode.leaves();
       leaves.should.be.an.Array();

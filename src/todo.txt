@@ -1,5 +1,6 @@
 Case sensitive option to trie or query?
-
+Build compact trie instead of regular trie
+test TrieNode._connectByEdge
 
 Profiling:
 demo was 688 nodes
