@@ -8,7 +8,7 @@ const emptyTrie = new TrieNode();
 describe('TrieNode', function () {
   describe('#_addChild', function () {
     it('should add a child', function () {
-      const trie = new TrieNode();
+      const trie = new TrieNode(); // TODO
       trie.childrenByLeadingChar.should.match({});
     });
   });

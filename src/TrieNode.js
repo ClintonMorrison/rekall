@@ -92,13 +92,7 @@ class TrieNode {
     const leadingChar = edge[0];
     this.childrenByLeadingChar[leadingChar] = childToConnect;
     this.edgesByLeadingChar[leadingChar] = edge;
-  }
-
-  _addChild(edge) {
-    const newNode = new TrieNode();
-    this._connectByEdge(newNode, edge);
-    // TODO: check if prefix already exists, split path if necessary
-    return newNode;
+    return childToConnect;
   }
 
   add(str, labelsForLeaf) {
@@ -106,8 +100,15 @@ class TrieNode {
     let node = result.lastNode;
     let nextNode;
 
+    if (result.remainingPattern.length > 0) {
+      const leadingChar = result.remainingPattern[0];
+      if (this.edgesByLeadingChar[leadingChar]) {
+        // util.getLengthOfCommonPrefix(result.remainingPattern, this.edgesByLeadingChar[leadingChar]);
+      }
+    }
+
     util.each(result.remainingPattern, (char) => {
-      nextNode = node._addChild(char);
+      nextNode = node._connectByEdge(new TrieNode(), char);
       node = nextNode;
     });
 
@@ -116,14 +117,15 @@ class TrieNode {
     });
   }
 
-  splitEdge(prefixToSplit) {
-    const leadingChar = prefixToSplit[0];
-    const edge = this.edgesByLeadingChar[leadingChar];
+  _addChild(pattern) {
+    const leadingChar = pattern[0];
+    const existingEdge = this.edgesByLeadingChar[leadingChar];
 
     // Split the edge into the prefix and the rest
-    const prefixLength = util.getLengthOfCommonPrefix(edge, prefixToSplit);
-    const prefix = edge.slice(0, prefixLength);
-    const remainder = edge.slice(prefixLength);
+    const prefixLength = util.getLengthOfCommonPrefix(existingEdge, pattern);
+    const prefix = existingEdge.slice(0, prefixLength);
+    const edgeRemainder = existingEdge.slice(prefixLength);
+    const patternRemainder = pattern.slice(prefixLength);
 
     // Disconnect the child on the edge
     const oldChild =  this.childrenByLeadingChar[leadingChar];
@@ -131,12 +133,17 @@ class TrieNode {
     delete this.childrenByLeadingChar[leadingChar];
 
     // Connect a new node by the prefix
-    const newNode = this._addChild(prefix);
+    const newChild = this._addChild(prefix);
 
     // Reconnect old node with the remainder
-    newNode._connectByEdge(oldNode, remainder);
+    newChild._connectByEdge(oldNode, edgeRemainder);
+    newChild._addChild(patternRemainder)
 
-    return newNode;
+    return {
+      newChild,
+
+
+    };
   }
 
   isLeaf() {
