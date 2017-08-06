@@ -132,4 +132,28 @@ describe('util', function () {
       });
     });
   });
+
+  describe('#getLengthOfCommonPrefix', function () {
+    context('the strings have a common prefix', function () {
+      beforeEach(function () {
+        this.string1 = 'abcXYZ';
+        this.string2 = 'abcDEF';
+      })
+
+      it('returns the length of the prefix', function () {
+        util.getLengthOfCommonPrefix(this.string1, this.string2).should.equal(3);
+      });
+    });
+
+    context('the strings do NOT have a common prefix', function () {
+      beforeEach(function () {
+        this.string1 = 'abcXYZ';
+        this.string2 = 'XYZabc';
+      })
+
+      it('returns 0', function () {
+        util.getLengthOfCommonPrefix(this.string1, this.string2).should.equal(0);
+      });
+    });
+  });
 });

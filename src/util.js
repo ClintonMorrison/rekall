@@ -85,9 +85,10 @@ const getFirstElement = function (array) {
 };
 
 module.exports = {
-  startsWith: startsWith,
-  suffixesOf: suffixesOf,
-  each: each,
-  hasKeys: hasKeys,
-  getFirstElement: getFirstElement
+  startsWith,
+  suffixesOf,
+  getLengthOfCommonPrefix,
+  each,
+  hasKeys,
+  getFirstElement
 };

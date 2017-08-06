@@ -101,16 +101,8 @@ class TrieNode {
     let nextNode;
 
     if (result.remainingPattern.length > 0) {
-      const leadingChar = result.remainingPattern[0];
-      if (this.edgesByLeadingChar[leadingChar]) {
-        // util.getLengthOfCommonPrefix(result.remainingPattern, this.edgesByLeadingChar[leadingChar]);
-      }
+      node = this._addChild(result.remainingPattern);
     }
-
-    util.each(result.remainingPattern, (char) => {
-      nextNode = node._connectByEdge(new TrieNode(), char);
-      node = nextNode;
-    });
 
     util.each(labelsForLeaf, (label) => {
       node.labels[label] = true;
@@ -119,7 +111,7 @@ class TrieNode {
 
   _addChild(pattern) {
     const leadingChar = pattern[0];
-    const existingEdge = this.edgesByLeadingChar[leadingChar];
+    const existingEdge = this.edgesByLeadingChar[leadingChar] || '';
 
     // Split the edge into the prefix and the rest
     const prefixLength = util.getLengthOfCommonPrefix(existingEdge, pattern);
@@ -127,23 +119,33 @@ class TrieNode {
     const edgeRemainder = existingEdge.slice(prefixLength);
     const patternRemainder = pattern.slice(prefixLength);
 
-    // Disconnect the child on the edge
-    const oldChild =  this.childrenByLeadingChar[leadingChar];
-    delete this.edgesByLeadingChar[leadingChar];
-    delete this.childrenByLeadingChar[leadingChar];
+    if (prefix) {
+      // Disconnect the child on the edge
+      const oldChild =  this.childrenByLeadingChar[leadingChar];
+      delete this.edgesByLeadingChar[leadingChar];
+      delete this.childrenByLeadingChar[leadingChar];
 
-    // Connect a new node by the prefix
-    const newChild = this._addChild(prefix);
+      // Connect a new node by the prefix
+      const newChild = this._connectByEdge(new TrieNode(), prefix);
 
-    // Reconnect old node with the remainder
-    newChild._connectByEdge(oldNode, edgeRemainder);
-    newChild._addChild(patternRemainder)
+      // Reconnect old node with the remainder
+      newChild._connectByEdge(oldChild, edgeRemainder);
 
-    return {
-      newChild,
+      // Add rest of path if some of the pattern is still unmatched
+      if (patternRemainder) {
+        return newChild._addChild(patternRemainder);
+      }
 
+      return newChild;
+    }
 
-    };
+    // If no shared prefix, connect the new node with a new edge
+    if (patternRemainder) {
+      return this._connectByEdge(new TrieNode(), patternRemainder);
+    }
+
+    // Return current node if no pattern left
+    return this;
   }
 
   isLeaf() {
@@ -195,11 +197,15 @@ class TrieNode {
     let is_last_child = false;
     let index = 0;
 
-    for (const c in this.childrenByLeadingChar) {
+    for (const c in this.edgesByLeadingChar) {
       is_last_child = index == (Object.keys(this.childrenByLeadingChar).length - 1);
       const arrow = is_last_child ? '└' : '├';
-      const child_prefix = `${padding}${is_last_child ? ' ' : '|'}  `;
-      lines.push(`${padding}${arrow}─ ${c}${this.childrenByLeadingChar[c].prettyPrint(child_prefix)}`);
+      let child_prefix = `${padding}${is_last_child ? ' ' : '|'}  `;
+      const edge = this.edgesByLeadingChar[c];
+      const child = this.childrenByLeadingChar[c];
+      const labels = this.constructor.getUniqueLabels([child]);
+      const labelsText = labels.length > 0 ? ` [${labels.join(', ')}]` : '';
+      lines.push(`${padding}${arrow}─ ${edge} ${labelsText}${child.prettyPrint(child_prefix)}`);
       index += 1;
     }
     return lines.join("\n");

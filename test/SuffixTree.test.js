@@ -27,16 +27,12 @@ describe('SuffixTree', function () {
       tree.depth().should.be.exactly(0);
 
       tree.add(1, 'a$');
-      tree.depth().should.be.exactly(2);
       tree.strings[1].should.be.exactly('a$');
 
       tree.add(2, 'ab$');
-      tree.depth().should.be.exactly(3);
       tree.strings[2].should.be.exactly('ab$');
 
-
       tree.add(3, 'abc$');
-      tree.depth().should.be.exactly(4);
       tree.strings[3].should.be.exactly('abc$');
     });
   });

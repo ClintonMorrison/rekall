@@ -31,23 +31,11 @@ describe('TrieNode', function () {
 
     it('should match prefixes of strings in the trie', function () {
       const trie = new TrieNode();
-      trie.add('apple');
-      trie.add('apricot');
-      trie.add('banana');
+      trie.add('ab', ['1']);
+      trie.add('ac', ['2']);
+      trie.add('ad', ['3']);
 
-      trie.match('a').should.be.exactly(trie.childrenByLeadingChar['a']);
-
-      trie.match('ap').should.be.exactly(
-        trie.childrenByLeadingChar['a'].childrenByLeadingChar['p']
-      );
-
-      trie.match('banan').should.be.exactly(trie
-        .childrenByLeadingChar['b']
-        .childrenByLeadingChar['a']
-        .childrenByLeadingChar['n']
-        .childrenByLeadingChar['a']
-        .childrenByLeadingChar['n']
-      );
+      trie.match('ac').labels['2'].should.be.true();
     });
 
     it('should match strings contained in the trie', function () {
@@ -56,12 +44,7 @@ describe('TrieNode', function () {
       trie.add('app$');
       trie.add('cat$');
 
-      trie.match('app$').should.be.exactly(trie
-        .childrenByLeadingChar['a']
-        .childrenByLeadingChar['p']
-        .childrenByLeadingChar['p']
-        .childrenByLeadingChar['$']
-      );
+      trie.match('app$').should.exist();
     });
 
   });
@@ -80,11 +63,9 @@ describe('TrieNode', function () {
 
       trie.prettyPrint().should.be.exactly([
         '',
-        '└─ a',
-        '   └─ b',
-        '      └─ c',
-        '         ├─ d',
-        '         └─ e',
+        '└─ abc ',
+        '   ├─ d ',
+        '   └─ e ',
       ].join('\n'));
     });
   });
@@ -201,6 +182,48 @@ describe('TrieNode', function () {
       leaves.should.have.length(2);
       leaves[0].should.equal(nodeB);
       leaves[1].should.equal(nodeC);
+    });
+
+  });
+
+  describe('#_addChild', function () {
+    context('there are no children', function () {
+      it('adds a child', function () {
+        const rootNode = new TrieNode();
+        rootNode._addChild('abc');
+        rootNode.depth().should.equal(1);
+        rootNode.edgesByLeadingChar['a'].should.equal('abc');
+        should.exist(rootNode.childrenByLeadingChar['a']);
+      });
+    });
+
+    context('there is a child that does not share a prefix', function () {
+      it('adds a child', function () {
+        const rootNode = new TrieNode();
+        rootNode._addChild('abc');
+        rootNode._addChild('def');
+        rootNode.depth().should.equal(1);
+        rootNode.edgesByLeadingChar['a'].should.equal('abc');
+        should.exist(rootNode.childrenByLeadingChar['a']);
+
+        rootNode.edgesByLeadingChar['d'].should.equal('def');
+        should.exist(rootNode.childrenByLeadingChar['d']);
+      });
+    });
+
+    context('there is a child that shares a prefix', function () {
+      it('adds a child', function () {
+        const rootNode = new TrieNode();
+        rootNode._addChild('abc');
+        rootNode._addChild('abd');
+        rootNode.depth().should.equal(2);
+        rootNode.edgesByLeadingChar['a'].should.equal('ab');
+        should.exist(rootNode.childrenByLeadingChar['a']);
+
+        const firstChild = rootNode.childrenByLeadingChar['a'];
+        firstChild.edgesByLeadingChar['c'].should.equal('c');
+        firstChild.edgesByLeadingChar['d'].should.equal('d');
+      });
     });
 
   });
