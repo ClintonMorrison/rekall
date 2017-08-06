@@ -88,8 +88,17 @@ class TrieNode {
   }
 
   _connectByEdge(childToConnect, edge) {
+    if (!edge) {
+      throw new Error('Cannot connect by empty edge');
+    }
+
     // TODO: this could validate edge doesn't already exist
     const leadingChar = edge[0];
+    
+    if (this.edgesByLeadingChar[leadingChar]) {
+      throw new Error('An edge with the leading character already exists');
+    }
+    
     this.childrenByLeadingChar[leadingChar] = childToConnect;
     this.edgesByLeadingChar[leadingChar] = edge;
     return childToConnect;
@@ -118,8 +127,8 @@ class TrieNode {
     const prefix = existingEdge.slice(0, prefixLength);
     const edgeRemainder = existingEdge.slice(prefixLength);
     const patternRemainder = pattern.slice(prefixLength);
-
-    if (prefix) {
+    
+    if (prefix && edgeRemainder) {
       // Disconnect the child on the edge
       const oldChild =  this.childrenByLeadingChar[leadingChar];
       delete this.edgesByLeadingChar[leadingChar];
@@ -137,6 +146,10 @@ class TrieNode {
       }
 
       return newChild;
+    } 
+    
+    if (prefix && !edgeRemainder) {
+      throw new Error('tried to add child where edge already had prefix')
     }
 
     // If no shared prefix, connect the new node with a new edge
