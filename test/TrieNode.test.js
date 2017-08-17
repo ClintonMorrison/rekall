@@ -43,8 +43,7 @@ describe('TrieNode', function () {
       trie.add('apple$');
       trie.add('app$');
       trie.add('cat$');
-
-      trie.match('app$').should.exist();
+      should.exist(trie.match('app$'));
     });
 
   });

@@ -10,14 +10,14 @@ describe('SuffixTree', function () {
     it('should create a SuffixTree over 1 string with the correct depth', function () {
       const tree = new SuffixTree();
       tree.add(1, 'abcd');
-      tree.depth().should.be.exactly(4);
+      tree.depth().should.be.exactly(1);
     });
 
     it('should create a SuffixTree over 2 strings with the correct depth', function () {
       const tree = new SuffixTree();
       tree.add(1, 'abcd');
       tree.add(2, 'abcde');
-      tree.depth().should.be.exactly(5);
+      tree.depth().should.be.exactly(2);
     });
   });
 
