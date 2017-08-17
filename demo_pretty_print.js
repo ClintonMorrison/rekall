@@ -4,13 +4,11 @@ const StringIndex = require('./lib/StringIndex');
 
 const stringIndex = new StringIndex();
 
-console.log(stringIndex.suffixTree.prettyPrint());
+//console.log(stringIndex.suffixTree.prettyPrint());
 
-stringIndex.add(1, 'A');
-console.log(stringIndex.suffixTree.prettyPrint());
+stringIndex.add(1, 'ABCD');
 
-stringIndex.add(2, 'AB');
-console.log(stringIndex.suffixTree.prettyPrint());
+//console.log(stringIndex.suffixTree.prettyPrint());
 
-stringIndex.add(3, 'ABC');
+stringIndex.add(2, 'BCDE');
 console.log(stringIndex.suffixTree.prettyPrint());
