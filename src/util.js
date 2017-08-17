@@ -4,9 +4,8 @@
  * Checks if string "a" starts with string "b"
  *
  */
-const startsWith = function (a, b) {
-  return a.indexOf(b) == 0;
-};
+const startsWith = (a, b) =>
+  (a.indexOf(b) == 0);
 
 const suffixesOf = function (str) {
   const suffixes = [];

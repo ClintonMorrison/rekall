@@ -46,7 +46,15 @@ class TrieNode {
 
   match(pattern) {
     const result = this._matchUntilMismatch(pattern);
-    return (result.remainingPattern.length === 0) ? result.lastNode : null;
+    if (result.remainingPattern.length === 0) {
+      return result.lastNode;
+    }
+
+    if (result.lastNode.hasEdgeWithPrefix(result.remainingPattern)) {
+      return result.lastNode.childrenByLeadingChar[result.remainingPattern[0]];
+    }
+
+    return null;
   }
 
   leaves() {
@@ -85,6 +93,19 @@ class TrieNode {
     });
 
     return children;
+  }
+
+  hasEdgeWithPrefix(prefix) {
+    if (prefix.length === 0) {
+      return false;
+    }
+
+    const char = prefix[0];
+    if (!this.edgesByLeadingChar[char]) {
+      return false;
+    }
+
+    return util.startsWith(this.edgesByLeadingChar[char], prefix);
   }
 
   _connectByEdge(childToConnect, edge) {
