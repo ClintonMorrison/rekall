@@ -6,6 +6,39 @@ import TrieNode from '../src/TrieNode';
 const emptyTrie = new TrieNode();
 
 describe('TrieNode', function () {
+
+  describe('#_getChild', function () {
+    it('returns the child if a child exists with the character ', function () {
+      const node = new TrieNode();
+      const child = new TrieNode();
+      node.childrenByLeadingChar['a'] = child;
+      node._getChild('a').should.equal(child);
+    });
+
+    it('returns the null if there is no child with the character', function () {
+      const node = new TrieNode();
+      const child = new TrieNode();
+      node.childrenByLeadingChar['b'] = child;
+      should.not.exist(node._getChild('a'));
+    });
+  });
+
+  describe('#_getEdge', function () {
+    it('returns the edge if an edge starts with the character ', function () {
+      const node = new TrieNode();
+      const child = new TrieNode();
+      node.edgesByLeadingChar['a'] = 'abc';
+      node._getEdge('a').should.equal('abc');
+    });
+
+    it('returns the null if no edge starts with the character', function () {
+      const node = new TrieNode();
+      const child = new TrieNode();
+      node.edgesByLeadingChar['b'] = 'bcd';
+      should.not.exist(node._getEdge('a'));
+    });
+  });
+
   describe('#_addChild', function () {
     it('should add a child', function () {
       const trie = new TrieNode(); // TODO

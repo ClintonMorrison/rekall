@@ -10,6 +10,14 @@ class TrieNode {
     this.parent = parent;
   }
 
+  _getChild(char) {
+    return this.childrenByLeadingChar[char];
+  }
+
+  _getEdge(char) {
+    return this.edgesByLeadingChar[char];
+  }
+
   _matchUntilMismatch(pattern) {
     // Empty string matches anything
     if (!pattern) {
