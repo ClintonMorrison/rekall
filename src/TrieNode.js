@@ -10,12 +10,14 @@ class TrieNode {
     this.parent = parent;
   }
 
-  _getChild(char) {
-    return this.childrenByLeadingChar[char];
+  _getChild(query) {
+    const firstChar = util.getFirstElement(query);
+    return this.childrenByLeadingChar[firstChar];
   }
 
-  _getEdge(char) {
-    return this.edgesByLeadingChar[char];
+  _getEdge(query) {
+    const firstChar = util.getFirstElement(query);
+    return this.edgesByLeadingChar[firstChar];
   }
 
   _matchUntilMismatch(pattern) {
@@ -28,9 +30,8 @@ class TrieNode {
     }
 
     // Check if first character matches leading character of any edge
-    const leadingChar = pattern[0];
-    const edge = this.edgesByLeadingChar[leadingChar];
-    if (!this.childrenByLeadingChar[leadingChar]) {
+    const edge = this._getEdge(pattern[0]);
+    if (!this._getChild(pattern[0])) {
       return {
         lastNode: this,
         remainingPattern: pattern,
@@ -47,7 +48,7 @@ class TrieNode {
 
     // Strip matched character and keep matching rest of pattern
     const remainingPattern = pattern.substring(edge.length),
-      child = this.childrenByLeadingChar[leadingChar];
+      child = this._getChild(pattern[0]);
 
     return child._matchUntilMismatch(remainingPattern);
   }
@@ -59,7 +60,7 @@ class TrieNode {
     }
 
     if (result.lastNode.hasEdgeWithPrefix(result.remainingPattern)) {
-      return result.lastNode.childrenByLeadingChar[result.remainingPattern[0]];
+      return result.lastNode._getChild(result.remainingPattern[0]);
     }
 
     return null;
@@ -109,11 +110,11 @@ class TrieNode {
     }
 
     const char = prefix[0];
-    if (!this.edgesByLeadingChar[char]) {
+    if (!this._getEdge(prefix[0])) {
       return false;
     }
 
-    return util.startsWith(this.edgesByLeadingChar[char], prefix);
+    return util.startsWith(this._getEdge(prefix[0]), prefix);
   }
 
   _connectByEdge(childToConnect, edge) {
@@ -124,7 +125,7 @@ class TrieNode {
     // TODO: this could validate edge doesn't already exist
     const leadingChar = edge[0];
 
-    if (this.edgesByLeadingChar[leadingChar]) {
+    if (this._getEdge(leadingChar)) {
       throw new Error('An edge with the leading character already exists');
     }
 
@@ -148,7 +149,7 @@ class TrieNode {
 
   _addChild(pattern) {
     const leadingChar = pattern[0];
-    const existingEdge = this.edgesByLeadingChar[leadingChar] || '';
+    const existingEdge = this._getEdge(leadingChar) || '';
 
     // Split the edge into the prefix and the rest
     const prefixLength = util.getLengthOfCommonPrefix(existingEdge, pattern);
@@ -162,7 +163,7 @@ class TrieNode {
 
     if (prefix) {
       // Disconnect the child on the edge
-      const oldChild =  this.childrenByLeadingChar[leadingChar];
+      const oldChild =  this._getChild(leadingChar);
       delete this.edgesByLeadingChar[leadingChar];
       delete this.childrenByLeadingChar[leadingChar];
 
@@ -176,7 +177,6 @@ class TrieNode {
       if (patternRemainder) {
         return newChild._addChild(patternRemainder);
       }
-
 
       return newChild;
     }
@@ -240,14 +240,15 @@ class TrieNode {
     let index = 0;
 
     for (const c in this.edgesByLeadingChar) {
-      is_last_child = index == (Object.keys(this.childrenByLeadingChar).length - 1);
+      is_last_child = (index == (Object.keys(this.childrenByLeadingChar).length - 1));
       const arrow = is_last_child ? '└' : '├';
       let child_prefix = `${padding}${is_last_child ? ' ' : '|'}  `;
-      const edge = this.edgesByLeadingChar[c];
-      const child = this.childrenByLeadingChar[c];
+      const child = this._getChild(c);
+      const edge = this._getEdge(c);
       const labels = this.constructor.getUniqueLabels([child]);
       const labelsText = labels.length > 0 ? ` [${labels.join(', ')}]` : '';
-      lines.push(`${padding}${arrow}─ ${edge} ${labelsText}${child.prettyPrint(child_prefix)}`);
+      const prettyPrintedChild = child.prettyPrint(child_prefix);
+      lines.push(`${padding}${arrow}─ ${edge} ${labelsText}${prettyPrintedChild}`);
       index += 1;
     }
     return lines.join("\n");

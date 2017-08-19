@@ -1,9 +1,12 @@
+THINGS TO DO:
 Case sensitive option to trie or query?
-Build compact trie instead of regular trie
 test TrieNode._connectByEdge
+setup profiling tools to compare to brute force search and benchmark improvements
+create object index (right now there's just a string index)
+methods for deleting from index
+methods for updating string in index
 
-Profiling:
-demo was 688 nodes
-
-After:
-119
+Before switching to compact trie:
+  demo was 688 nodes
+After switching to compact trie:
+demo was 119 nodes

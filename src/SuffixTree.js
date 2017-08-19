@@ -11,7 +11,6 @@ class SuffixTree extends TrieNode {
   }
 
   add(id, string) {
-    const stringID = this.nextStringID;
     for (const suffix of util.suffixesOf(string)) {
       super.add(suffix, [id]);
     }
@@ -29,8 +28,9 @@ class SuffixTree extends TrieNode {
   }
 
   getMatchingStrings(pattern) {
-    const stringIDs = this.getMatchingStringIDs(pattern);
-    return stringIDs.map((stringID) => (this.getStringByID(stringID)));
+    return this
+      .getMatchingStringIDs(pattern)
+      .map(stringID => this.getStringByID(stringID));
   }
 
   getStringByID(stringID) {
