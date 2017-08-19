@@ -2,35 +2,36 @@ import util from './util';
 import SuffixTree from './SuffixTree';
 
 class StringIndex {
-  constructor() {
+  constructor(options = {}) {
     this.suffixTree = new SuffixTree();
+    this.options = options;
 
     this.findOne = this.getFindOneQueryBuilder();
     this.findAll = this.getFindAllQueryBuilder();
   }
 
   _getIDsWhereStringEquals(pattern) {
-    const processedPattern = `^${this.constructor._encode(pattern)}$`;
+    const processedPattern = `^${this._encode(pattern)}$`;
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
   _getIDsWhereStringContains(pattern) {
-    const processedPattern = this.constructor._encode(pattern);
+    const processedPattern = this._encode(pattern);
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
   _getIDsWhereStringStartsWith(pattern) {
-    const processedPattern = `^${this.constructor._encode(pattern)}`;
+    const processedPattern = `^${this._encode(pattern)}`;
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
   _getIDsWhereStringEndsWith(pattern) {
-    const processedPattern = `${this.constructor._encode(pattern)}$`;
+    const processedPattern = `${this._encode(pattern)}$`;
     return this.suffixTree.getMatchingStringIDs(processedPattern);
   }
 
   add(id, string) {
-    this.suffixTree.add(id, `^${this.constructor._encode(string)}$`);
+    this.suffixTree.add(id, `^${this._encode(string)}$`);
   }
 
   getFindOneQueryBuilder(processResultsCallback) {
@@ -65,13 +66,17 @@ class StringIndex {
     };
   }
 
-  static _encode(string) {
-    return string
+  _encode(string) {
+    const encoded = string
       .replace(/\$/g, '\\$')
       .replace(/\^/g, '\\^');
+
+    return this.options.caseInsensitive ?
+      encoded.toLowerCase() :
+      encoded;
   }
 
-  static _decode(string) {
+  _decode(string) {
     return string
       .replace(/\\\$/, '$')
       .replace(/\\\^/, '^');

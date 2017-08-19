@@ -72,12 +72,7 @@ class TrieNode {
     }
 
     let leaves = [];
-    const children = this.children();
-    let child;
-    let i;
-
-    for (i = 0; i < children.length; i++) {
-      child = children[i];
+    for (const child of this.children()) {
       leaves = child.leaves().concat(leaves);
     }
 

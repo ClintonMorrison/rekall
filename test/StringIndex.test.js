@@ -3,26 +3,46 @@ import StringIndex from '../src/StringIndex';
 
 describe('StringIndex', function () {
   describe('#_encode', function () {
-    it('should replace "$" with "\\$"', function () {
-      StringIndex._encode('ABCD$ TEST$').should.be.exactly('ABCD\\$ TEST\\$');
+    context('the index is case sensitive', function () {
+      beforeEach(function () {
+        this.stringIndex = new StringIndex();
+      });
+
+      it('should replace "$" with "\\$"', function () {
+        this.stringIndex._encode('ABCD$ TEST$').should.be.exactly('ABCD\\$ TEST\\$');
+      });
+
+      it('should replace "^" with "\\^"', function () {
+        this.stringIndex._encode('ABCD^ TEST^').should.be.exactly('ABCD\\^ TEST\\^');
+      });
     });
 
-    it('should replace "^" with "\\^"', function () {
-      StringIndex._encode('ABCD^ TEST^').should.be.exactly('ABCD\\^ TEST\\^');
+    context('the index is case insensitive', function () {
+      beforeEach(function () {
+        this.stringIndex = new StringIndex({ caseInsensitive: true });
+      });
+
+      it('should convert the string to lowercase', function () {
+        this.stringIndex._encode('ABCD$ TEST$').should.be.exactly('abcd\\$ test\\$');
+      });
     });
   });
 
   describe('#_decode', function () {
+    beforeEach(function () {
+      this.stringIndex = new StringIndex();
+    });
+
     it('should not change a string the does not have "^" and "$" characters', function () {
-      StringIndex._decode('test').should.be.exactly('test');
+      this.stringIndex._decode('test').should.be.exactly('test');
     });
 
     it('should replace "\\^" with "^"', function () {
-      StringIndex._decode('test\\^test').should.be.exactly('test^test');
+      this.stringIndex._decode('test\\^test').should.be.exactly('test^test');
     });
 
     it('should replace "\\$" with "$"', function () {
-      StringIndex._decode('test\\$test').should.be.exactly('test$test');
+      this.stringIndex._decode('test\\$test').should.be.exactly('test$test');
     });
   });
 
@@ -185,6 +205,23 @@ describe('StringIndex', function () {
         this.stringIndex._getIDsWhereStringStartsWith(this.query).should.be.empty();
       });
     });
+
+    context('the index is case insensitive', function () {
+      beforeEach(function () {
+        this.stringIndex = new StringIndex({ caseInsensitive: true });
+        this.stringIndex.add(1, 'AbCd');
+      });
+
+      it('should match strings ignoring case', function () {
+        this.stringIndex
+          ._getIDsWhereStringStartsWith('abc')
+          .should.match([1]);
+
+        this.stringIndex
+          ._getIDsWhereStringStartsWith('ABC')
+          .should.match([1]);
+      });
+    });
   });
 
   describe('#_getIDsWhereStringEndsWith', function () {
@@ -312,7 +349,10 @@ describe('StringIndex', function () {
       });
 
       it('should return the ID of the lexicographically smallest match', function () {
-        const stringIDs = this.stringIndex.findAll.thatContain(this.query);
+        const stringIDs = this.stringIndex
+        .findAll
+        .thatContain(this.query);
+
         stringIDs.should
           .containEql(1)
           .and.containEql(2)

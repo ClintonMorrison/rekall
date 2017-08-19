@@ -9,7 +9,7 @@ const rekall = require('rekall');
 
 
 // String index
-var fruits = rekall.stringIndex();
+var fruits = rekall.stringIndex({ caseInsensitive: true });
 fruits.add(1, 'Apple');
 fruits.add(2, 'Banana');
 fruits.add(3, 'Orange');

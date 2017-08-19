@@ -1,5 +1,4 @@
 THINGS TO DO:
-change how labels are stored so int labels returned as ints
 consider not storing strings at all, or storing them in index instead
 Case sensitive option to trie or query?
 setup profiling tools to compare to brute force search and benchmark improvements
