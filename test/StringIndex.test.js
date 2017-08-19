@@ -38,7 +38,7 @@ describe('StringIndex', function () {
       });
 
       it('should return the id of the equal string', function () {
-        this.stringIndex._getIDsWhereStringEquals(this.query).should.match(['1']);
+        this.stringIndex._getIDsWhereStringEquals(this.query).should.match([1]);
       });
     });
 
@@ -85,7 +85,7 @@ describe('StringIndex', function () {
       });
 
       it('should return an array with the id of the indexed string', function () {
-        this.stringIndex._getIDsWhereStringContains(this.query).should.match(['1']);
+        this.stringIndex._getIDsWhereStringContains(this.query).should.match([1]);
       });
     });
 
@@ -95,7 +95,7 @@ describe('StringIndex', function () {
       });
 
       it('should return an array with the id of the indexed string', function () {
-        this.stringIndex._getIDsWhereStringContains(this.query).should.match(['1']);
+        this.stringIndex._getIDsWhereStringContains(this.query).should.match([1]);
       });
     });
 
@@ -105,7 +105,7 @@ describe('StringIndex', function () {
       });
 
       it('should return an array with the id of the indexed string', function () {
-        this.stringIndex._getIDsWhereStringContains(this.query).should.match(['1']);
+        this.stringIndex._getIDsWhereStringContains(this.query).should.match([1]);
       });
     });
 
@@ -115,7 +115,7 @@ describe('StringIndex', function () {
       });
 
       it('should return an array with the id of the indexed string', function () {
-        this.stringIndex._getIDsWhereStringContains(this.query).should.match(['1']);
+        this.stringIndex._getIDsWhereStringContains(this.query).should.match([1]);
       });
     });
 
@@ -142,7 +142,7 @@ describe('StringIndex', function () {
       });
 
       it('should return an array with the id of the indexed string', function () {
-        this.stringIndex._getIDsWhereStringStartsWith(this.query).should.match(['1']);
+        this.stringIndex._getIDsWhereStringStartsWith(this.query).should.match([1]);
       });
     });
 
@@ -152,7 +152,7 @@ describe('StringIndex', function () {
       });
 
       it('should return an array with the id of the indexed string', function () {
-        this.stringIndex._getIDsWhereStringStartsWith(this.query).should.match(['1']);
+        this.stringIndex._getIDsWhereStringStartsWith(this.query).should.match([1]);
       });
     });
 
@@ -199,7 +199,7 @@ describe('StringIndex', function () {
       });
 
       it('should return an array with the id of the indexed string', function () {
-        this.stringIndex._getIDsWhereStringEndsWith(this.query).should.match(['1']);
+        this.stringIndex._getIDsWhereStringEndsWith(this.query).should.match([1]);
       });
     });
 
@@ -219,7 +219,7 @@ describe('StringIndex', function () {
       });
 
       it('should return an array with the id of the indexed string', function () {
-        this.stringIndex._getIDsWhereStringEndsWith(this.query).should.match(['1']);
+        this.stringIndex._getIDsWhereStringEndsWith(this.query).should.match([1]);
       });
     });
 
@@ -276,7 +276,7 @@ describe('StringIndex', function () {
 
       it('should return the ID of the lexicographically smallest match', function () {
         const stringID = this.stringIndex.findOne.thatContains(this.query);
-        stringID.should.equal('1');
+        stringID.should.equal(1);
       });
     });
   });
@@ -314,9 +314,9 @@ describe('StringIndex', function () {
       it('should return the ID of the lexicographically smallest match', function () {
         const stringIDs = this.stringIndex.findAll.thatContain(this.query);
         stringIDs.should
-          .containEql('1')
-          .and.containEql('2')
-          .and.containEql('4')
+          .containEql(1)
+          .and.containEql(2)
+          .and.containEql(4)
           .and.have.length(3);
       });
     });

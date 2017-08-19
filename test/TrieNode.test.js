@@ -64,11 +64,11 @@ describe('TrieNode', function () {
 
     it('should match prefixes of strings in the trie', function () {
       const trie = new TrieNode();
-      trie.add('ab', ['1']);
-      trie.add('ac', ['2']);
-      trie.add('ad', ['3']);
+      trie.add('ab', [1]);
+      trie.add('ac', [1]);
+      trie.add('ad', [3]);
 
-      trie.match('ac').labels['2'].should.be.true();
+      trie.match('ac').labels[1].should.equal(1);
     });
 
     it('should match strings contained in the trie', function () {
@@ -246,7 +246,7 @@ describe('TrieNode', function () {
     it('adds a string with the given label', function () {
       const node = new TrieNode();
       node.add('abc', ['LABEL']);
-      node._getChild('a').labels['LABEL'].should.equal(true);
+      node._getChild('a').labels['LABEL'].should.equal('LABEL');
     });
   })
 

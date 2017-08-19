@@ -142,7 +142,7 @@ class TrieNode {
     }
 
     util.each(labelsForLeaf, (label) => {
-      node.labels[label] = true;
+      node.labels[label] = label;
     });
   }
 
@@ -258,11 +258,11 @@ class TrieNode {
 
     util.each(nodes, (node) => {
       util.each(node.labels, (value, label) => {
-        labels[label] = true;
+        labels[label] = value;
       });
     });
 
-    return Object.keys(labels);
+    return Object.values(labels);
   }
 }
 

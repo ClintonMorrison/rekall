@@ -1,10 +1,12 @@
 THINGS TO DO:
+change how labels are stored so int labels returned as ints
+consider not storing strings at all, or storing them in index instead
 Case sensitive option to trie or query?
-test TrieNode._connectByEdge
 setup profiling tools to compare to brute force search and benchmark improvements
 create object index (right now there's just a string index)
 methods for deleting from index
 methods for updating string in index
+
 
 Before switching to compact trie:
   demo was 688 nodes
