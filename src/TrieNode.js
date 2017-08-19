@@ -122,7 +122,6 @@ class TrieNode {
       throw new Error('Cannot connect by empty edge');
     }
 
-    // TODO: this could validate edge doesn't already exist
     const leadingChar = edge[0];
 
     if (this._getEdge(leadingChar)) {

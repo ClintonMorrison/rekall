@@ -103,7 +103,7 @@ describe('TrieNode', function () {
   });
 
 
-  describe('TrieNode.Node#isLeaf', function () {
+  describe('#isLeaf', function () {
     it('should return false is the node has any children', function () {
       const rootNode = new TrieNode(),
         leftNode = new TrieNode(rootNode),
@@ -190,6 +190,30 @@ describe('TrieNode', function () {
 
   });
 
+  describe('#hasEdgeWithPrefix', function () {
+    it('returns false if there is no edge with the prefix', function () {
+      const node = new TrieNode();
+      node.edgesByLeadingChar['a'] = 'aaa';
+      node.hasEdgeWithPrefix('aab').should.equal(false);
+    });
+
+    it('returns true if there is an edge with the prefix', function () {
+      const node = new TrieNode();
+      node.edgesByLeadingChar['a'] = 'aaa';
+      node.hasEdgeWithPrefix('aaa').should.equal(true);
+    });
+  });
+
+  describe('#_connectByEdge', function () {
+    it('connects a child to a node by an edge', function () {
+      const node = new TrieNode();
+      const childToConnect = new TrieNode();
+      node._connectByEdge(childToConnect, 'abcd');
+      node._getChild('a').should.equal(childToConnect);
+      node._getEdge('a').should.equal('abcd');
+    });
+  });
+
   describe('#leaves', function () {
     it('should return an array with just the node if the node is a leaf', function () {
       const rootNode = new TrieNode();
@@ -217,6 +241,14 @@ describe('TrieNode', function () {
     });
 
   });
+
+  describe('#add', function () {
+    it('adds a string with the given label', function () {
+      const node = new TrieNode();
+      node.add('abc', ['LABEL']);
+      node._getChild('a').labels['LABEL'].should.equal(true);
+    });
+  })
 
   describe('#_addChild', function () {
     context('there are no children', function () {

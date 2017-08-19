@@ -6,7 +6,6 @@ import TrieNode from './TrieNode';
 class SuffixTree extends TrieNode {
   constructor() {
     super(null);
-    this.nextStringID = 0;
     this.strings = {};
   }
 
