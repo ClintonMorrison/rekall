@@ -184,6 +184,12 @@ class TrieNode {
     return this;
   }
 
+  // Deletes a node from the tree and re-arranges
+  // ancestors as needed to keep the trie compact
+  removeAndPrune(string) {
+
+  }
+
   isLeaf() {
     for (const c in this.childrenByLeadingChar) {
       return false;
@@ -239,13 +245,21 @@ class TrieNode {
       let child_prefix = `${padding}${is_last_child ? ' ' : '|'}  `;
       const child = this._getChild(c);
       const edge = this._getEdge(c);
-      const labels = this.constructor.getUniqueLabels([child]);
+      const labels = child.getLabels();
       const labelsText = labels.length > 0 ? ` [${labels.join(', ')}]` : '';
       const prettyPrintedChild = child.prettyPrint(child_prefix);
       lines.push(`${padding}${arrow}─ ${edge} ${labelsText}${prettyPrintedChild}`);
       index += 1;
     }
     return lines.join("\n");
+  }
+
+  getLabels() {
+    return this.constructor.getUniqueLabels([this]);
+  }
+
+  hasLabel(label) {
+    return !!(this.labels[label]);
   }
 
   static getUniqueLabels(nodes) {

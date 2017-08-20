@@ -36,6 +36,18 @@ class SuffixTree extends TrieNode {
     return this.strings['' + stringID];
   }
 
+  removeStringByID(stringID) {
+    const string = this.getStringByID(stringID);
+    const locus = this.match(string);
+
+    if (!locus || !locus.isLeaf() || !locus.labels[stringID]) {
+      throw new Error('string not in trie, it may have aleady been deleted');
+    }
+
+
+
+  }
+
 }
 
 module.exports = SuffixTree;

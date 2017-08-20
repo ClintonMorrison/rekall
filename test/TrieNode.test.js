@@ -291,4 +291,31 @@ describe('TrieNode', function () {
     });
 
   });
+
+  describe('#getLabels', function () {
+    it('returns an empty array if the node has no labels', function () {
+      const node = new TrieNode();
+      node.getLabels().should.match([]);
+    });
+
+    it('returns array of the nodes labels', function () {
+      const node = new TrieNode();
+      node.labels['abc'] = 'abc';
+      node.labels['def'] = 'def';
+      node.getLabels().should.match(['abc', 'def']);
+    });
+  });
+
+  describe('#hasLabel', function () {
+    it('returns false if the node does not have the label', function () {
+      const node = new TrieNode();
+      node.hasLabel(1).should.equal(false);
+    });
+
+    it('returns true if the node has the label', function () {
+      const node = new TrieNode();
+      node.labels[1] = 1;
+      node.hasLabel(1).should.equal(true);
+    });
+  });
 });
