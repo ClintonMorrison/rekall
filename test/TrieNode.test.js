@@ -165,10 +165,10 @@ describe('TrieNode', function () {
     });
   });
 
-  describe('#children', function () {
+  describe('#getChildren', function () {
     it('should return an empty array if the node has no children', function () {
       const rootNode = new TrieNode();
-      rootNode.children().should.be.an.Array().and.be.empty();
+      rootNode.getChildren().should.be.an.Array().and.be.empty();
     });
 
     it('should return an array of nodes', function () {
@@ -181,7 +181,7 @@ describe('TrieNode', function () {
       const nodeC = new TrieNode(nodeA);
       nodeA.childrenByLeadingChar['c'] = nodeC;
 
-      const children = rootNode.children();
+      const children = rootNode.getChildren();
       children.should.be.an.Array();
       children.should.have.length(2);
       children[0].should.equal(nodeA);
@@ -316,6 +316,52 @@ describe('TrieNode', function () {
       const node = new TrieNode();
       node.labels[1] = 1;
       node.hasLabel(1).should.equal(true);
+    });
+  });
+
+  describe('#getParent', function () {
+    it('should return a childs parent', function () {
+      const parent = new TrieNode();
+      const child = parent._addChild('abc');
+      child.getParent().should.equal(parent);
+    });
+
+    it('should return null if the node has no parent', function () {
+      const root = new TrieNode();
+      should.not.exist(root.getParent());
+    });
+  });
+
+  describe('#disconnectChild', function () {
+    it('disconnects a child from the parent', function () {
+      const parent = new TrieNode();
+      const child = parent._addChild('abc');
+      parent.disconnectChild(child);
+      parent.getChildren().should.be.empty();
+    });
+  });
+
+  describe('#getParentEdge', function () {
+    it('returns the edge which connects the node to its parent', function () {
+      const parent = new TrieNode();
+      const child = parent._addChild('abc');
+      child.getParentEdge().should.equal('abc');
+    });
+
+    it('returns null if there is no parent', function () {
+      const parent = new TrieNode();
+      should.not.exist(parent.getParentEdge());
+    });
+  });
+
+  describe('#removeAndPrune', function () {
+    it('removes the node', function () {
+      const node = new TrieNode();
+      const child = node._addChild('abc');
+
+      node.getChildren().length.should.equal(1);
+      child.removeAndPrune();
+      node.getChildren().should.be.empty();
     });
   });
 });

@@ -72,7 +72,7 @@ class TrieNode {
     }
 
     let leaves = [];
-    for (const child of this.children()) {
+    for (const child of this.getChildren()) {
       leaves = child.leaves().concat(leaves);
     }
 
@@ -84,12 +84,12 @@ class TrieNode {
       return [];
     }
 
-    this.parent.children().map((node) => {
+    this.parent.getChildren().map((node) => {
       return (node != this);
     });
   }
 
-  children() {
+  getChildren() {
     const children = [];
 
     util.each(this.childrenByLeadingChar, (child) => {
@@ -125,6 +125,8 @@ class TrieNode {
 
     this.childrenByLeadingChar[leadingChar] = childToConnect;
     this.edgesByLeadingChar[leadingChar] = edge;
+    childToConnect.parent = this;
+
     return childToConnect;
   }
 
@@ -184,9 +186,16 @@ class TrieNode {
     return this;
   }
 
-  // Deletes a node from the tree and re-arranges
+  // Deletes this node from the tree and re-arranges
   // ancestors as needed to keep the trie compact
-  removeAndPrune(string) {
+  removeAndPrune() {
+    // TODO: add this methods
+    const parent = this.getParent();
+    const parentChildren = parent.getChildren();
+
+    if (parentChildren.length <= 2) {
+      parent.disconnectChild(this);
+    }
 
   }
 
@@ -207,7 +216,7 @@ class TrieNode {
       return 0;
     }
 
-    util.each(this.children(), (child) => {
+    util.each(this.getChildren(), (child) => {
       depth = 1 + child.depth();
       maxDepth = Math.max(depth, maxDepth);
     });
@@ -223,7 +232,7 @@ class TrieNode {
       return total;
     }
 
-    util.each(this.children(), (child) => {
+    util.each(this.getChildren(), (child) => {
       total += child.size();
     });
 
@@ -260,6 +269,38 @@ class TrieNode {
 
   hasLabel(label) {
     return !!(this.labels[label]);
+  }
+
+  getParent() {
+    return this.parent;
+  }
+
+  // Gets the edge which connects this node to it's parent
+  getParentEdge() {
+    const parent = this.getParent();
+    if (!parent) {
+      return null;
+    }
+
+    for (const char in parent.edgesByLeadingChar) {
+      if (parent._getChild(char) === this) {
+        return parent.edgesByLeadingChar[char];
+      }
+    }
+
+    return null;
+  }
+
+  disconnectChild(child) {
+    const edge = child.getParentEdge();
+
+    if (!edge) {
+      throw new Error('child is not connected to parent');
+    }
+
+    delete this.childrenByLeadingChar[edge[0]];
+    delete this.edgesByLeadingChar[edge[0]];
+    this.parent = null;
   }
 
   static getUniqueLabels(nodes) {

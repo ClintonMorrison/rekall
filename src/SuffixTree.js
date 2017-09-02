@@ -33,19 +33,23 @@ class SuffixTree extends TrieNode {
   }
 
   getStringByID(stringID) {
-    return this.strings['' + stringID];
+    return this.strings[stringID];
   }
 
   removeStringByID(stringID) {
     const string = this.getStringByID(stringID);
     const locus = this.match(string);
 
-    if (!locus || !locus.isLeaf() || !locus.labels[stringID]) {
+    if (!locus || !locus.isLeaf() || !locus.hasLabel(stringID)) {
       throw new Error('string not in trie, it may have aleady been deleted');
     }
 
+    // The leaf only needs to be removed if this is the only string associated with it
+    if (locus.getLabels().length == 1) {
+      locus.removeAndPrune();
+    }
 
-
+    delete this.strings[stringID];
   }
 
 }
