@@ -363,5 +363,30 @@ describe('TrieNode', function () {
       child.removeAndPrune();
       node.getChildren().should.be.empty();
     });
+
+    it('compacts the trie', function () {
+      const parent = new TrieNode();
+      const child1 = parent._addChild('abc');
+      const child2 = parent._addChild('abd');
+      console.log(parent.prettyPrint());
+      parent.size().should.equal(4);
+      child2.removeAndPrune();
+      console.log(parent.prettyPrint());
+      parent.size().should.equal(2);
+
+      /**
+       *  ab
+       *    c
+       *    d
+       *
+       * turns into
+       *   ab
+       *     c
+       *
+       * and compacted into
+       *   abc
+       */
+
+    });
   });
 });

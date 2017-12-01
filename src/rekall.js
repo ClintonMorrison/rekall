@@ -1,15 +1,13 @@
-import util from './util';
-import TrieNode from './SuffixTree';
+import util from './util'
+import TrieNode from './SuffixTree'
 
-var Rekall  = {
+var Rekall = {
   objectIndex: function () {
-    
   },
 
   stringIndex: function () {
-    return new SuffixTree([]);
+    return new SuffixTree([])
   }
 }
 
-
-module.exports = Rekall;
+module.exports = Rekall
