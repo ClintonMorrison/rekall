@@ -24,6 +24,12 @@ fruits
   .findOne
   .thatStartsWith('Water'); // returns 4
 
+fruits.removeStringByID(2); // removes "Banana" from index
+
+fruits.toJSON(); // serializes index to toJSON
+
+var fruits = rekall.fromJSON(json); // deserialize index from JSON
+
 
 // Object index
 var starships = rekall.objectIndex();

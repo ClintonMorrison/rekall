@@ -172,6 +172,8 @@ class TrieNode {
         return newChild._addChild(patternRemainder)
       }
 
+      newChild.parent = this;
+
       return newChild
     }
 
@@ -189,11 +191,17 @@ class TrieNode {
   removeAndPrune () {
     // TODO: add this methods
     const parent = this.getParent()
+
     const parentChildren = parent.getChildren()
 
     if (parentChildren.length <= 2) {
       parent.disconnectChild(this)
     }
+
+    console.log('parent is', parent);
+
+    console.log('parent of parent', parent.getParent());
+
 
     parent.compactIfPossible()
   }
@@ -293,7 +301,16 @@ class TrieNode {
   // keep trie compact
   compactIfPossible () {
     const children = this.getChildren()
+    const parent = this.getParent()
+
+    if (!parent) {
+      console.log('no parent')
+      console.log(this.prettyPrint())
+      return false
+    }
+
     if (children.length !== 1) {
+      console.log('children length not 1')
       return false
     }
 
@@ -303,7 +320,7 @@ class TrieNode {
 
     // Append lone child edge to parent
     const parentEdge = this.getParentEdge()
-    this.getParent().childrenByLeadingChar[parentEdge[0]] = `${parentEdge}${loneChildEdge}`
+    parent.edgesByLeadingChar[parentEdge[0]] = `${parentEdge}${loneChildEdge}`
 
     // Absorb lone child's children
     this.childrenByLeadingChar = loneChild.childrenByLeadingChar
@@ -326,7 +343,7 @@ class TrieNode {
 
     delete this.childrenByLeadingChar[edge[0]]
     delete this.edgesByLeadingChar[edge[0]]
-    this.parent = null
+    child.parent = null
   }
 
   static getUniqueLabels (nodes) {
