@@ -53,6 +53,16 @@ describe('TrieNode', function () {
       lastNode.should.equal(trie);
       remainingPattern.should.equal('ABC');
     });
+
+    it('should return the last matched node and remiaining pattern if there is a partial match', function () {
+      const trie = new TrieNode();
+      trie.add('aa');
+      trie.add('ab');
+
+      const { lastNode, remainingPattern } = trie._matchUntilMismatch('ac');
+      lastNode.should.equal(trie._getChild('a'));
+      remainingPattern.should.equal('c');
+    });
   });
 
   describe('#match', function () {
