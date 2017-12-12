@@ -46,6 +46,15 @@ describe('TrieNode', function () {
     });
   });
 
+  describe('#_matchUntilMismatch', function () {
+    it('should return the current node and pattern if there is no match', function () {
+      const trie = new TrieNode();
+      const { lastNode, remainingPattern } = trie._matchUntilMismatch('ABC');
+      lastNode.should.equal(trie);
+      remainingPattern.should.equal('ABC');
+    });
+  });
+
   describe('#match', function () {
     it('should match an empty string', function () {
   	  emptyTrie.match('').should.be.exactly(emptyTrie);

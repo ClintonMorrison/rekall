@@ -198,11 +198,6 @@ class TrieNode {
       parent.disconnectChild(this)
     }
 
-    console.log('parent is', parent);
-
-    console.log('parent of parent', parent.getParent());
-
-
     parent.compactIfPossible()
   }
 
@@ -304,13 +299,10 @@ class TrieNode {
     const parent = this.getParent()
 
     if (!parent) {
-      console.log('no parent')
-      console.log(this.prettyPrint())
       return false
     }
 
     if (children.length !== 1) {
-      console.log('children length not 1')
       return false
     }
 
