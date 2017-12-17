@@ -63,6 +63,14 @@ describe('TrieNode', function () {
       lastNode.should.equal(trie._getChild('a'));
       remainingPattern.should.equal('c');
     });
+
+    it('should return the last matched node and an empty pattern is there is a full match', function () {
+      const trie = new TrieNode();
+      trie.add('a');
+      const { lastNode, remainingPattern } = trie._matchUntilMismatch('a');
+      lastNode.should.equal(trie._getChild('a'));
+      remainingPattern.should.be.empty();
+    });
   });
 
   describe('#match', function () {
