@@ -1,3 +1,9 @@
 module.exports = {
-    "extends": "standard"
+    "extends": "standard",
+    "globals": {
+        "describe": false,
+        "it": false,
+        "context": false,
+        "beforeEach": false
+    }
 };

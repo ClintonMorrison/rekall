@@ -283,7 +283,6 @@ describe('StringIndex', function () {
 
   describe('#findOne', function () {
     context('there are no matching indexed strings', function () {
-
       beforeEach(function () {
         this.stringIndex = new StringIndex()
         this.stringIndex.add(1, 'Cat')
@@ -300,7 +299,6 @@ describe('StringIndex', function () {
     })
 
     context('there are multiple matching indexed strings', function () {
-
       beforeEach(function () {
         this.stringIndex = new StringIndex()
         this.stringIndex.add(1, 'a')
@@ -320,7 +318,6 @@ describe('StringIndex', function () {
 
   describe('#findAll', function () {
     context('there are no matching indexed strings', function () {
-
       beforeEach(function () {
         this.stringIndex = new StringIndex()
         this.stringIndex.add(1, 'Cat')
@@ -337,7 +334,6 @@ describe('StringIndex', function () {
     })
 
     context('there are multiple matching indexed strings', function () {
-
       beforeEach(function () {
         this.stringIndex = new StringIndex()
         this.stringIndex.add(1, 'a')
@@ -350,8 +346,8 @@ describe('StringIndex', function () {
 
       it('should return the ID of the lexicographically smallest match', function () {
         const stringIDs = this.stringIndex
-        .findAll
-        .thatContain(this.query)
+          .findAll
+          .thatContain(this.query)
 
         stringIDs.should
           .containEql(1)
