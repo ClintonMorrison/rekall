@@ -172,7 +172,7 @@ class TrieNode {
         return newChild._addChild(patternRemainder)
       }
 
-      newChild.parent = this;
+      newChild.parent = this
 
       return newChild
     }
@@ -250,7 +250,7 @@ class TrieNode {
     let index = 0
 
     for (const c in this.edgesByLeadingChar) {
-      isLastChild = (index == (Object.keys(this.childrenByLeadingChar).length - 1))
+      isLastChild = (index === (Object.keys(this.childrenByLeadingChar).length - 1))
       const arrow = isLastChild ? '└' : '├'
       let childPrefix = `${padding}${isLastChild ? ' ' : '|'}  `
       const child = this._getChild(c)

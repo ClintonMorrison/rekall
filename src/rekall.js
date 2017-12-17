@@ -1,4 +1,4 @@
-import util from './util'
+// import util from './util'
 import TrieNode from './SuffixTree'
 
 var Rekall = {

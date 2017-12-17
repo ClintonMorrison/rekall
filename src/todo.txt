@@ -4,9 +4,3 @@ setup profiling tools to compare to brute force search and benchmark improvement
 create object index (right now there's just a string index)
 methods for deleting from index
 methods for updating string in index
-
-
-Before switching to compact trie:
-  demo was 688 nodes
-After switching to compact trie:
-demo was 119 nodes

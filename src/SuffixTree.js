@@ -45,7 +45,7 @@ class SuffixTree extends TrieNode {
     }
 
     // The leaf only needs to be removed if this is the only string associated with it
-    if (locus.getLabels().length == 1) {
+    if (locus.getLabels().length === 1) {
       locus.removeAndPrune()
     }
 
