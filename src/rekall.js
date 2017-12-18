@@ -1,4 +1,3 @@
-// import util from './util'
 import StringIndex from './StringIndex'
 
 var Rekall = {
