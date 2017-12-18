@@ -34,7 +34,7 @@ class StringIndex {
     this.suffixTree.add(id, `^${this._encode(string)}$`)
   }
 
-  getFindOneQueryBuilder (processResultsCallback) {
+  getFindOneQueryBuilder () {
     return {
       thatEquals: (pattern) =>
         util.getFirstElement(this._getIDsWhereStringEquals(pattern)),
@@ -50,7 +50,7 @@ class StringIndex {
     }
   }
 
-  getFindAllQueryBuilder (processResultsCallback) {
+  getFindAllQueryBuilder () {
     return {
       thatEqual: (pattern) =>
         (this._getIDsWhereStringEquals(pattern)),

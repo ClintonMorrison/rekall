@@ -1,12 +1,12 @@
 // import util from './util'
-import TrieNode from './SuffixTree'
+import StringIndex from './StringIndex'
 
 var Rekall = {
   objectIndex: function () {
   },
 
   stringIndex: function () {
-    return new SuffixTree([])
+    return new StringIndex()
   }
 }
 

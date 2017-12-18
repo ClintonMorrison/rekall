@@ -1,12 +1,5 @@
 import util from './util'
 
-/*
-const augmentWithQueryBuilder = function (object, executeHandler) {
-  object.findOne = new ObjectQuery('ONE', executeHandler)
-  object.findAll = new ObjectQuery('ALL', executeHandler)
-}
-*/
-
 class ObjectQuery {
   constructor (resultType, executeHandler) {
     this.resultType = resultType
