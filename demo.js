@@ -6,7 +6,7 @@ const stringIndex = new StringIndex();
 
 const strings = {
   1: 'cats cats',
-  1: 'cats are very good.',
+  2: 'cats are very good.',
   3: 'Dogs dogs dogs',
   4: 'It was a catastrophe',
   '5': 'This is a test'

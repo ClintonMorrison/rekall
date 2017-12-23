@@ -1,8 +1,8 @@
 {
   "name": "rekall",
-  "description": "A in-memory full text search index for JavaScript objects",
-  "author": "Clinton Morrison <contact@clintonmorrison.com",
-  "verson": "0.0.1",
+  "description": "An in-memory full text search index for strings",
+  "author": "Clinton Morrison <clintonmorrison2@gmail.com>",
+  "verson": "0.0.0",
   "homepage": "https://github.com/ClintonMorrison/rekall",
   "engines": {
     "node": ">=4"
