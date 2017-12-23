@@ -1,12 +1,12 @@
-import StringIndex from './StringIndex'
+import StringIndex from './StringIndex';
 
 var Rekall = {
   objectIndex: function () {
   },
 
   stringIndex: function () {
-    return new StringIndex()
+    return new StringIndex();
   }
-}
+};
 
-module.exports = Rekall
+module.exports = Rekall;
