@@ -1,24 +1,28 @@
 'use strict';
 
-const StringIndex = require('./lib/StringIndex');
+const rekall = require('./lib/rekall');
 
-const stringIndex = new StringIndex();
+let fruits = rekall.stringIndex({ caseInsensitive: true });
 
-const strings = {
-  1: 'cats cats',
-  2: 'cats are very good.',
-  3: 'Dogs dogs dogs',
-  4: 'It was a catastrophe',
-  '5': 'This is a test'
-};
+// Add strings to index
+fruits.add(1, 'Apple');
+fruits.add(2, 'Banana');
+fruits.add(3, 'Orange');
+fruits.add(4, 'Watermelon');
 
-console.log('\n\nSTRINGS TO INDEX:')
-for (const id in strings) {
-  console.log('  ', id, '-->', strings[id]);
-  stringIndex.add(id, strings[id]);
-}
+// Searching the index
+fruits
+  .findAll
+  .caseInsensitive
+  .thatContain('a'); // returns [1, 2, 3]
 
-console.log('\n\nSTRINGS CONTAINING "CAT"');
-console.log(stringIndex.findAll.thatContain('cat'));
+fruits
+  .findOne
+  .thatStartsWith('Water'); // returns 4
 
-console.log('\n\nNODES IN TRIE:', stringIndex.suffixTree.size());
+// Removing strings
+fruits.removeStringByID(2); // removes "Banana" from index
+
+// Serializing and deserializing
+const json = fruits.toJSON();
+fruits = rekall.fromJSON(json);
