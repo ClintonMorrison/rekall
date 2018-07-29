@@ -2,7 +2,7 @@
   "name": "rekall",
   "description": "An in-memory full text search index for strings",
   "author": "Clinton Morrison <clintonmorrison2@gmail.com>",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/ClintonMorrison/rekall",
   "engines": {
     "node": ">=4"
