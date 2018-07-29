@@ -1,6 +1,0 @@
-THINGS TO DO:
-consider not storing strings at all, or storing them in index instead
-setup profiling tools to compare to brute force search and benchmark improvements
-create object index (right now there's just a string index)
-methods for deleting from index
-methods for updating string in index
