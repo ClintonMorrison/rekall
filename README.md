@@ -26,7 +26,7 @@ fruits
 
 fruits
   .findOne
-  .thatEquals('Apple'); // returns null
+  .thatEquals('Appl'); // returns null
 ```
 
 
