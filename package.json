@@ -10,8 +10,7 @@
   "scripts": {
     "test": "node_modules/.bin/mocha --require babel-polyfill --compilers js:babel-register ",
     "build": "babel src -d lib",
-    "demo": "npm run build && node demo",
-    "demo2": "npm run build && node demo_pretty_print"
+    "demo": "npm run build && node demo"
   },
   "repository": {
     "type": "git",

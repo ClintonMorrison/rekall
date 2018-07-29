@@ -189,7 +189,6 @@ export default class TrieNode {
   // Deletes this node from the tree and re-arranges
   // ancestors as needed to keep the trie compact
   removeAndPrune () {
-    // TODO: add this methods
     const parent = this.getParent();
 
     const parentChildren = parent.getChildren();

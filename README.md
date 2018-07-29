@@ -5,9 +5,8 @@ This library is still a work in progress and is not remotely close to being done
 
 Here's an example of how it might work:
 ```javascript
-const rekall = require('rekall');
+const rekall = require('./lib/rekall');
 
-// Create index
 let fruits = rekall.stringIndex({ caseInsensitive: true });
 
 // Add strings to index
@@ -19,22 +18,21 @@ fruits.add(4, 'Watermelon');
 // Searching the index
 fruits
   .findAll
-  .caseInsensitive
-  .thatContain('a'); // returns [1, 2, 3]
+  .thatContain('a'); // returns [1, 2, 3, 4]
 
 fruits
   .findOne
   .thatStartsWith('Water'); // returns 4
 
-// Removing strings
-fruits.removeStringByID(2); // removes "Banana" from index
-
-// Serializing and deserializing
-const json = fruits.toJSON();
-fruits = rekall.fromJSON(json);
+fruits
+  .findOne
+  .thatEquals('Apple'); // returns null
 ```
 
 
 ## Upcoming Features
-In the future this library will support indexing objects, and searching
-for them based on values for specific keys.
+In the future this library might support:
+- deleting from the index
+- serializing and deserializing the index
+- indexing objects
+- and searching for objects based on values for specific keys

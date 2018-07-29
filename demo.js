@@ -22,10 +22,3 @@ fruits
 fruits
   .findOne
   .thatEquals('Apple'); // returns null
-
-// Removing strings
-// fruits.removeStringByID(2); // removes "Banana" from index
-
-// Serializing and deserializing
-// const json = fruits.toJSON();
-// fruits = rekall.fromJSON(json);
