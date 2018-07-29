@@ -1,7 +1,7 @@
 import util from './util';
 import SuffixTree from './SuffixTree';
 
-class StringIndex {
+export default class StringIndex {
   constructor (options = {}) {
     this.suffixTree = new SuffixTree();
     this.options = options;
@@ -82,5 +82,3 @@ class StringIndex {
       .replace(/\\\^/, '^');
   }
 }
-
-module.exports = StringIndex;

@@ -3,7 +3,7 @@
 import util from './util';
 import TrieNode from './TrieNode';
 
-class SuffixTree extends TrieNode {
+export default class SuffixTree extends TrieNode {
   constructor () {
     super(null);
     this.strings = {};
@@ -52,5 +52,3 @@ class SuffixTree extends TrieNode {
     delete this.strings[stringID];
   }
 }
-
-module.exports = SuffixTree;

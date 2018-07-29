@@ -2,7 +2,7 @@
 
 import util from './util';
 
-class TrieNode {
+export default class TrieNode {
   constructor (parent, labels) {
     this.childrenByLeadingChar = {};
     this.edgesByLeadingChar = {};
@@ -350,5 +350,3 @@ class TrieNode {
     return Object.values(labels);
   }
 }
-
-module.exports = TrieNode;

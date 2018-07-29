@@ -1,6 +1,6 @@
 import util from './util';
 
-class ObjectQuery {
+export default class ObjectQuery {
   constructor (resultType, executeHandler) {
     this.resultType = resultType;
     this.clauses = [];
@@ -35,5 +35,3 @@ class ObjectQuery {
     }
   }
 }
-
-module.exports = ObjectQuery;

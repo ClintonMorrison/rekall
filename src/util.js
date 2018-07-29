@@ -82,7 +82,7 @@ const getFirstElement = function (array) {
   return null;
 };
 
-module.exports = {
+export default {
   startsWith,
   suffixesOf,
   getLengthOfCommonPrefix,
