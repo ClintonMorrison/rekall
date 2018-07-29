@@ -4,8 +4,8 @@ var Rekall = {
   objectIndex: function () {
   },
 
-  stringIndex: function () {
-    return new StringIndex();
+  stringIndex: function (options = {}) {
+    return new StringIndex(options);
   }
 };
 

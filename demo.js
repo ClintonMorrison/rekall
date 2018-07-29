@@ -13,16 +13,19 @@ fruits.add(4, 'Watermelon');
 // Searching the index
 fruits
   .findAll
-  .caseInsensitive
-  .thatContain('a'); // returns [1, 2, 3]
+  .thatContain('a'); // returns [1, 2, 3, 4]
 
 fruits
   .findOne
   .thatStartsWith('Water'); // returns 4
 
+fruits
+  .findOne
+  .thatEquals('Apple'); // returns null
+
 // Removing strings
-fruits.removeStringByID(2); // removes "Banana" from index
+// fruits.removeStringByID(2); // removes "Banana" from index
 
 // Serializing and deserializing
-const json = fruits.toJSON();
-fruits = rekall.fromJSON(json);
+// const json = fruits.toJSON();
+// fruits = rekall.fromJSON(json);
