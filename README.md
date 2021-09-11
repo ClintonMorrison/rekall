@@ -1,9 +1,6 @@
 # rekall
 A suffix tree backed full text index for strings, written in JavaScript.
 
-This library is still a work in progress.
-
-Here's an example of how it might work:
 ```javascript
 const rekall = require('./lib/rekall');
 
